@@ -62,6 +62,7 @@ def get_games_update(url):
     messages = []
     for price in prices:
         change = round((price["old_price"]-price["price"])/price["old_price"]*100)
+        print(price)
         embed = discord.Embed(
             title=f" {price['name']}",
             description=f"New Price - £{price['price']} \n" \
@@ -84,16 +85,23 @@ async def send_notification():
         return
 
     while not client.is_closed():
-        selected_channel = client.get_channel(channel_id)
-        for link in game_links:
-            return_value = get_games_update(link)
-            if return_value:
-                for i in return_value:
-                    await selected_channel.send(embed=i)
-            await asyncio.sleep(1)
-        delta = datetime.now() - curr_time
-        await asyncio.sleep(max(60 - delta.total_seconds(), 0))
-        curr_time = curr_time + timedelta(seconds=60)
+        try:
+            selected_channel = client.get_channel(channel_id)
+            for link in game_links:
+                try:
+                    return_value = get_games_update(link)
+                except Exception as e:
+                    print(e.with_traceback)
+                    continue
+                if return_value:
+                    for i in return_value:
+                        await selected_channel.send(embed=i)
+                await asyncio.sleep(1)
+            delta = datetime.now() - curr_time
+            await asyncio.sleep(max(60 - delta.total_seconds(), 0))
+            curr_time = curr_time + timedelta(seconds=60)
+        except Exception:
+            print("Major Exception")
 
 # Event: Bot is ready
 @client.event

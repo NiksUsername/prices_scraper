@@ -52,7 +52,6 @@ prices = {}
 
 
 def get_new_prices(url, page=1):
-    print(url)
     response = requests.get(url, headers=headers, cookies=cookies, impersonate="chrome120")
 
     soup = BeautifulSoup(response.content, "html.parser")
