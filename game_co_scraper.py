@@ -60,21 +60,24 @@ def get_new_prices(url, page=1):
 
     game_data = []
     for item in game_items:
-        item_data = {}
-        title = item.find("div", class_="productTitle")
-        title = title.find("a")
-        item_data["name"] = title.text.strip()
-        item_data["price"] = float(item.find("span", class_="now").text.strip().split("£")[1].split("/")[0])
-        if item_data["price"] == 0: continue
-        item_data["link"] = title["href"]
-        if item_data["link"] in prices:
-            if prices[item_data["link"]]["price"] >= item_data["price"]*2:
-                item_data["old_price"] = prices[item_data["link"]]["price"]
-                prices[item_data["link"]]["price"] = item_data["price"]
-                game_data.append(item_data)
-            else: prices[item_data["link"]] = item_data
-        else:
-            prices[item_data["link"]] = item_data
+        try:
+            item_data = {}
+            title = item.find("div", class_="productTitle")
+            title = title.find("a")
+            item_data["name"] = title.text.strip()
+            item_data["price"] = float(item.find("span", class_="now").text.strip().split("£")[1].split("/")[0])
+            if item_data["price"] == 0: continue
+            item_data["link"] = title["href"]
+            if item_data["link"] in prices:
+                if prices[item_data["link"]]["price"] > item_data["price"]:
+                    item_data["old_price"] = prices[item_data["link"]]["price"]
+                    prices[item_data["link"]]["price"] = item_data["price"]
+                    game_data.append(item_data)
+                else: prices[item_data["link"]] = item_data
+            else:
+                prices[item_data["link"]] = item_data
+        except Exception:
+            continue
     products = int(soup.find("div", class_="productCount").find_all("strong")[2].text.strip())
     if products > 600 and page != 4:
         for data in get_new_prices(url.split("pageNumber=")[0]+f"pageNumber={page+1}", page+1):
