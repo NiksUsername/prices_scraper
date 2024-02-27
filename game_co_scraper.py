@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+
 from curl_cffi import requests
 from bs4 import BeautifulSoup
 
@@ -50,6 +52,8 @@ cookies = {
 
 prices = {}
 
+discounts = {}
+
 
 def get_new_prices(url, page=1):
     response = requests.get(url, headers=headers, cookies=cookies, impersonate="chrome120")
@@ -73,7 +77,9 @@ def get_new_prices(url, page=1):
                     item_data["old_price"] = prices[item_data["link"]]["price"]
                     prices[item_data["link"]]["price"] = item_data["price"]
                     game_data.append(item_data)
-                else: prices[item_data["link"]] = item_data
+                    discounts[item_data["link"]] = datetime.now()
+                elif item_data["link"] not in discounts:
+                    prices[item_data["link"]] = item_data
             else:
                 prices[item_data["link"]] = item_data
         except Exception:
@@ -82,4 +88,9 @@ def get_new_prices(url, page=1):
     if products > 600 and page != 4:
         for data in get_new_prices(url.split("pageNumber=")[0]+f"pageNumber={page+1}", page+1):
             game_data.append(data)
+    temp = discounts.items()
+    for key, value in temp:
+        if value < datetime.now() - timedelta(hours=12):
+            discounts.pop(key)
+
     return game_data

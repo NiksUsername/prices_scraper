@@ -53,7 +53,9 @@ game_links = [
     'https://www.game.co.uk/en/nintendo/accessories/',
 ]
 
-channel_id = 1007960489965400135
+channel_id = 1209922009824239666
+
+
 
 
 # Function to get the return value of the desired function (replace this with your function)
