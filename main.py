@@ -56,31 +56,31 @@ game_links = [
 channel_id = 1209922009824239666
 
 
-
-
-# Function to get the return value of the desired function (replace this with your function)
 def get_games_update(url):
     prices = get_new_prices(url+"?contentOnly=&inStockOnly=true&listerOnly=&pageSize=600&sortBy=MOST_POPULAR_DESC&pageNumber=1")
     messages = []
     for price in prices:
         change = round((price["old_price"]-price["price"])/price["old_price"]*100)
         print(price)
+        link_name = price["name"].replace(" ", "%20")
         embed = discord.Embed(
-            title=f" {price['name']}",
+            title=f"[{price['name']}]({price['link']})",
             description=f"New Price - £{price['price']} \n" \
                         f"Old Price - £{price['old_price']} \n" \
                         f"Change - {change}% \n" \
-                        f"[Link to item]({price['link']}) \n",
+                        f"\nLinks: \n"
+                        f"[Amazon](https://www.amazon.com/s?k={link_name}) | "
+                        f"[Keepa](https://keepa.com/#!search/1-{link_name}) | "
+                        f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={link_name})\n",
             color=0x0000ff
         )
         messages.append(embed)
     return messages
 
 
-# Function to send notification to selected chat
 async def send_notification():
     await client.wait_until_ready()
-    selected_channel = client.get_channel(channel_id)  # Replace with your desired channel ID
+    selected_channel = client.get_channel(channel_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
