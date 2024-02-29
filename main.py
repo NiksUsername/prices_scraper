@@ -64,12 +64,13 @@ def get_games_update(url):
         print(price)
         link_name = price["name"].replace(" ", "%20")
         embed = discord.Embed(
-            title=f"[{price['name']}]({price['link']})",
+            title=f"{price['name']}",
             description=f"New Price - £{price['price']} \n" \
                         f"Old Price - £{price['old_price']} \n" \
                         f"Change - {change}% \n" \
                         f"\nLinks: \n"
-                        f"[Amazon](https://www.amazon.com/s?k={link_name}) | "
+                        f"[Game link]({price['link']}) \n"
+                        f"[Amazon](https://www.amazon.co.uk/s?k={link_name}) | "
                         f"[Keepa](https://keepa.com/#!search/1-{link_name}) | "
                         f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={link_name})\n",
             color=0x0000ff
