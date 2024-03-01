@@ -73,7 +73,7 @@ def get_new_prices(url, page=1):
             if item_data["price"] == 0: continue
             item_data["link"] = title["href"]
             if item_data["link"] in prices:
-                if prices[item_data["link"]]["price"] > item_data["price"]:
+                if prices[item_data["link"]]["price"]*0.65 >= item_data["price"]:
                     item_data["old_price"] = prices[item_data["link"]]["price"]
                     prices[item_data["link"]]["price"] = item_data["price"]
                     game_data.append(item_data)
