@@ -67,9 +67,10 @@ def get_games_update(url):
             title=f"{price['name']}",
             description=f"New Price - £{price['price']} \n" \
                         f"Old Price - £{price['old_price']} \n" \
-                        f"Change - {change}% \n" \
+                        f"Change - {change}% \n\n"
+                        f"Website link: \n" \
+                        f"[www.game.co.uk]({price['link']}) \n"
                         f"\nLinks: \n"
-                        f"[Game link]({price['link']}) \n"
                         f"[Amazon](https://www.amazon.co.uk/s?k={link_name}) | "
                         f"[Keepa](https://keepa.com/#!search/1-{link_name}) | "
                         f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={link_name})\n",
