@@ -54,6 +54,8 @@ prices = {}
 
 discounts = {}
 
+first_run = True
+
 
 def get_new_prices(url, page=1):
     response = requests.get(url, headers=headers, cookies=cookies, impersonate="chrome120")
@@ -72,6 +74,7 @@ def get_new_prices(url, page=1):
             item_data["price"] = float(item.find("span", class_="now").text.strip().split("£")[1].split("/")[0])
             if item_data["price"] == 0: continue
             item_data["link"] = title["href"]
+
             if item_data["link"] in prices:
                 if prices[item_data["link"]]["price"]*0.65 >= item_data["price"]:
                     item_data["old_price"] = prices[item_data["link"]]["price"]
@@ -79,13 +82,16 @@ def get_new_prices(url, page=1):
                     game_data.append(item_data)
                     discounts[item_data["link"]] = datetime.now()
                 elif item_data["link"] not in discounts:
-                    prices[item_data["link"]] = item_data
+                    prices[item_data["link"]] = item_data.copy()
             else:
-                prices[item_data["link"]] = item_data
+                if not first_run:
+                    item_data["old_price"] = 0
+                    game_data.append(item_data)
+                prices[item_data["link"]] = item_data.copy()
         except Exception:
             continue
     products = int(soup.find("div", class_="productCount").find_all("strong")[2].text.strip())
-    if products > 600 and page != 4:
+    if products > 600*page and page != 4:
         for data in get_new_prices(url.split("pageNumber=")[0]+f"pageNumber={page+1}", page+1):
             game_data.append(data)
     temp = discounts.items()
