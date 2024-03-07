@@ -83,7 +83,8 @@ argos_links = [
     'https://www.argos.co.uk/browse/technology/sound-bars/c:30123/',
 ]
 
-channel_id = 1209922009824239666
+game_channel_id = 1209922009824239666
+argos_channel_id = 1215250546295050260
 
 
 def get_argos_update(url):
@@ -126,14 +127,14 @@ def get_updates(prices, website):
 
 async def send_game_notification():
     await client.wait_until_ready()
-    selected_channel = client.get_channel(channel_id)
+    selected_channel = client.get_channel(game_channel_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
         return
     while not client.is_closed():
         try:
-            selected_channel = client.get_channel(channel_id)
+            selected_channel = client.get_channel(game_channel_id)
             for link in game_links:
                 try:
                     return_value = await asyncio.to_thread(get_games_update, link)
@@ -155,7 +156,7 @@ async def send_game_notification():
 
 async def send_argos_notification():
     await client.wait_until_ready()
-    selected_channel = client.get_channel(channel_id)
+    selected_channel = client.get_channel(argos_channel_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -165,7 +166,7 @@ async def send_argos_notification():
         await asyncio.to_thread(get_argos_update, link)
     while not client.is_closed():
         try:
-            selected_channel = client.get_channel(channel_id)
+            selected_channel = client.get_channel(argos_channel_id)
             for link in argos_links:
                 try:
                     return_value = await asyncio.to_thread(get_argos_update, link)
@@ -197,10 +198,10 @@ async def on_ready():
 async def on_message(message):
     if message.author == client.user:
         return
-    global channel_id
+    global game_channel_id
     if message.content.startswith('!set_channel') and (message.guild is not None) and (message.guild.owner == message.author):
-        channel_id = message.channel.id
-        print(channel_id)
+        game_channel_id = message.channel.id
+        print(game_channel_id)
         await message.channel.send(f"Channel successfully set")
 
 client.run(TOKEN)
