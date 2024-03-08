@@ -84,9 +84,9 @@ def get_new_prices(url, page=1):
                 elif item_data["link"] not in discounts:
                     prices[item_data["link"]] = item_data.copy()
             else:
-                if not first_run:
-                    item_data["old_price"] = 0
-                    game_data.append(item_data)
+                #if not first_run:
+                    #item_data["old_price"] = 0
+                    #game_data.append(item_data)
                 prices[item_data["link"]] = item_data.copy()
         except Exception:
             continue

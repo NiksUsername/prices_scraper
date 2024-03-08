@@ -52,8 +52,8 @@ def get_new_prices(url, page_number=1):
                     prices[link] = item_data.copy()
             else:
                 prices[link] = item_data.copy()
-                item_data["old_price"] = 0
-                discounts_list.append(item_data)
+                #item_data["old_price"] = 0
+                #discounts_list.append(item_data)
 
         item_count = int(soup.find("span", class_="styles__ResultsCount-sc-1hkcas-11")["data-search-results"])
         if 60*page_number < item_count:
