@@ -196,7 +196,7 @@ async def send_johnlewis_notification():
 async def on_ready():
     print('Logged in as', client.user.name)
     print('------')
-    #client.loop.create_task(send_game_notification())
+    client.loop.create_task(send_game_notification())
     client.loop.create_task(send_argos_notification())
     client.loop.create_task(send_laptops_notification())
     client.loop.create_task(send_johnlewis_notification())
