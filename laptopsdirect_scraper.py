@@ -57,7 +57,7 @@ def get_new_prices(url, page_number=1):
 
         all_items = soup.find_all("div", "OfferBoxPrice")
         if len(all_items) >= 48:
-            time.sleep(1)
+            time.sleep(0.5)
             for discount in get_new_prices(url,page_number+1):
                 discounts_list.append(discount)
 

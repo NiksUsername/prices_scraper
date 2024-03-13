@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 import argos_scraper
+import currys_scraper
 import game_co_scraper
 import discord
 import asyncio
@@ -21,6 +22,7 @@ game_channel_id = 1209922009824239666
 argos_channel_id = 1215250546295050260
 laptops_direct_channel_id = 1216395055514783795
 john_lewis_channel_id = 1216394889567141940
+currys_channel_id = 1216395018697310239
 
 
 def get_laptops_update(url):
@@ -41,6 +43,11 @@ def get_argos_update(url):
 def get_games_update(url):
     prices = game_co_scraper.get_new_prices(url+"?contentOnly=&inStockOnly=true&listerOnly=&pageSize=600&sortBy=MOST_POPULAR_DESC&pageNumber=1")
     return get_updates(prices, "www.game.co.uk")
+
+
+def get_currys_update(url):
+    prices = currys_scraper.get_new_prices(url)
+    return get_updates(prices, "www.currys.co.uk")
 
 
 def get_updates(prices, website):
@@ -191,6 +198,36 @@ async def send_johnlewis_notification():
             print("Major John Lewis Exception")
 
 
+async def send_currys_notification():
+    await client.wait_until_ready()
+    selected_channel = client.get_channel(currys_channel_id)
+    curr_time = datetime.now()
+    if selected_channel is None:
+        print("Error: Channel not found.")
+        return
+    for link in currys_links:
+        await asyncio.sleep(0.5)
+        await asyncio.to_thread(get_currys_update, link)
+    while not client.is_closed():
+        try:
+            selected_channel = client.get_channel(currys_channel_id)
+            for link in currys_links:
+                try:
+                    return_value = await asyncio.to_thread(get_currys_update, link)
+                except Exception as e:
+                    print(e.with_traceback)
+                    continue
+                if return_value:
+                    for i in return_value:
+                        await selected_channel.send(embed=i)
+                await asyncio.sleep(0.5)
+            delta = datetime.now() - curr_time
+            await asyncio.sleep(max(60 - delta.total_seconds(), 0))
+            curr_time = curr_time + timedelta(seconds=60)
+        except Exception:
+            print("Major John Lewis Exception")
+
+
 # Event: Bot is ready
 @client.event
 async def on_ready():
@@ -200,6 +237,7 @@ async def on_ready():
     client.loop.create_task(send_argos_notification())
     client.loop.create_task(send_laptops_notification())
     client.loop.create_task(send_johnlewis_notification())
+    client.loop.create_task(send_currys_notification())
 
 # Event: Message received
 @client.event
