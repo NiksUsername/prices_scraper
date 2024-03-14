@@ -22,7 +22,7 @@ temporary_discounts = {}
 
 
 def get_new_prices(url, page_number=1, chunk=1):
-    url = url.replace("https://www.johnlewis.com/browse/", "").replace("/", ",")
+    url = url.replace("https://www.johnlewis.com/browse/", "").replace("/", ",").replace(",_,", ",show-in-stock-items-only,_,")
     api_url = f"https://www.johnlewis.com/standard-plp/api/product-chunks?page={page_number}&chunk={chunk}&term=&type=browse&facetId={url}&sortBy=&price=&priceBands=&listHead=&lolcode="
     response = requests.get(api_url, headers=header)
     discounts_list = []
