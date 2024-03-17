@@ -60,7 +60,7 @@ def get_updates(prices, website):
             old_price = f"£{price['old_price']}"
             change = str(round((price["old_price"] - price["price"]) / price["old_price"] * 100)) + "%"
         print(price)
-        link_name = price["name"].replace(" ", "%20")
+        link_name = price["name"].replace(" ", "%20").replace("\xa0", "%20")
         embed = discord.Embed(
             title=f"{price['name']}",
             description=f"New Price - £{price['price']} \n" \

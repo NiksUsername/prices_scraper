@@ -63,7 +63,6 @@ def get_new_prices(url, page_number=1, cgid=""):
         api_link = f"https://www.currys.co.uk/search-update-grid?cgid={cgid}&start={(page_number-1)*50}&sz=50&viewtype=listView"
     else:
         api_link = url+f"?start={(page_number-1)*50}&sz=50&viewtype=listView"
-    print(api_link)
     response = requests.get(api_link, headers=header, cookies=cookies, impersonate="chrome120")
     discounts_list = []
 
