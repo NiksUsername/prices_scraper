@@ -42,16 +42,19 @@ def get_new_prices(url, page_number=1, chunk=1):
             item_data = {
                 "name": name,
                 "price": price,
-                "link": link
+                "link": link,
+                "old_price": price
             }
             if link in prices:
-                if prices[link]["price"]*0.99 >= price:
-                    item_data["old_price"] = prices[link]["price"]
+                if prices[link]["old_price"]*0.99 >= price and price != prices[link]["price"]:
+                    item_data["old_price"] = prices[link]["old_price"]
                     prices[link]["price"] = price
                     discounts_list.append(item_data)
                     temporary_discounts[link] = datetime.now()
                 elif link not in temporary_discounts:
-                    prices[link] = item_data.copy()
+                    if prices[link]["old_price"] < price:
+                        prices[link]["old_price"] = price
+                    prices[link]["price"] = price
             else:
                 prices[link] = item_data.copy()
                 #item_data["old_price"] = 0
@@ -68,7 +71,7 @@ def get_new_prices(url, page_number=1, chunk=1):
 
         temp = temporary_discounts.items()
         for key, value in temp:
-            if value < datetime.now() - timedelta(hours=12):
+            if value < datetime.now() - timedelta(hours=24):
                 temporary_discounts.pop(key)
         return discounts_list
 

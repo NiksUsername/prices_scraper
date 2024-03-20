@@ -100,8 +100,12 @@ async def send_game_notification():
                         await selected_channel.send(embed=i)
                 await asyncio.sleep(1)
             delta = datetime.now() - curr_time
-            await asyncio.sleep(max(60 - delta.total_seconds(), 0))
-            curr_time = curr_time + timedelta(seconds=60)
+            now = datetime.now()
+            delay = 300
+            if 2 < now.hour < 13:
+                delay = 60
+            await asyncio.sleep(max(delay - delta.total_seconds(), 0))
+            curr_time = now
             game_co_scraper.first_run = False
         except Exception:
             print("Major Game Exception")
@@ -132,8 +136,12 @@ async def send_argos_notification():
                         await selected_channel.send(embed=i)
                 await asyncio.sleep(1)
             delta = datetime.now() - curr_time
-            await asyncio.sleep(max(60 - delta.total_seconds(), 0))
-            curr_time = curr_time + timedelta(seconds=60)
+            now = datetime.now()
+            delay = 300
+            if 4 < now.hour < 8:
+                delay = 60
+            await asyncio.sleep(max(delay - delta.total_seconds(), 0))
+            curr_time = now
         except Exception:
             print("Major Argos Exception")
 
@@ -162,8 +170,8 @@ async def send_laptops_notification():
                         await selected_channel.send(embed=i)
                 await asyncio.sleep(1)
             delta = datetime.now() - curr_time
-            await asyncio.sleep(max(60 - delta.total_seconds(), 0))
-            curr_time = curr_time + timedelta(seconds=60)
+            await asyncio.sleep(max(300 - delta.total_seconds(), 0))
+            curr_time = curr_time + timedelta(seconds=300)
         except Exception:
             print("Major Laptops Exception")
 
@@ -192,8 +200,12 @@ async def send_johnlewis_notification():
                         await selected_channel.send(embed=i)
                 await asyncio.sleep(1)
             delta = datetime.now() - curr_time
-            await asyncio.sleep(max(60 - delta.total_seconds(), 0))
-            curr_time = curr_time + timedelta(seconds=60)
+            now = datetime.now()
+            delay = 300
+            if now.hour < 3:
+                delay = 60
+            await asyncio.sleep(max(delay - delta.total_seconds(), 0))
+            curr_time = now
         except Exception:
             print("Major John Lewis Exception")
 
@@ -222,8 +234,8 @@ async def send_currys_notification():
                         await selected_channel.send(embed=i)
                 await asyncio.sleep(0.5)
             delta = datetime.now() - curr_time
-            await asyncio.sleep(max(60 - delta.total_seconds(), 0))
-            curr_time = curr_time + timedelta(seconds=60)
+            await asyncio.sleep(max(300 - delta.total_seconds(), 0))
+            curr_time = curr_time + timedelta(seconds=300)
         except Exception:
             print("Major John Lewis Exception")
 

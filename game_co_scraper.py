@@ -74,15 +74,18 @@ def get_new_prices(url, page=1):
             item_data["price"] = float(item.find("span", class_="now").text.strip().split("£")[1].split("/")[0])
             if item_data["price"] == 0: continue
             item_data["link"] = title["href"]
+            item_data["old_price"] = item_data["price"]
 
             if item_data["link"] in prices:
-                if prices[item_data["link"]]["price"]*0.65 >= item_data["price"]:
-                    item_data["old_price"] = prices[item_data["link"]]["price"]
+                if prices[item_data["link"]]["old_price"]*0.65 >= item_data["price"] and item_data["price"] != prices[item_data["link"]]["price"]:
+                    item_data["old_price"] = prices[item_data["link"]]["old_price"]
                     prices[item_data["link"]]["price"] = item_data["price"]
                     game_data.append(item_data)
                     discounts[item_data["link"]] = datetime.now()
                 elif item_data["link"] not in discounts:
-                    prices[item_data["link"]] = item_data.copy()
+                    if prices[item_data["link"]]["old_price"] < item_data["price"]:
+                        prices[item_data["link"]]["old_price"] = item_data["price"]
+                    prices[item_data["link"]]["price"] = item_data["price"]
             else:
                 #if not first_run:
                     #item_data["old_price"] = 0
