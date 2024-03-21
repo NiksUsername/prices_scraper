@@ -82,7 +82,6 @@ def get_new_prices(url, page_number=1, cgid=""):
                 "link": link,
                 "old_price": price
             }
-            print(item_data)
             if link in prices:
                 if prices[link]["old_price"]*0.99 >= price and price != prices[link]["price"] and link not in temporary_discounts:
                     item_data["old_price"] = prices[link]["old_price"]
@@ -113,5 +112,3 @@ def get_new_prices(url, page_number=1, cgid=""):
     else:
         print("Failed to retrieve the page")
         return discounts_list
-
-get_new_prices("https://www.currys.co.uk/appliances/ironing/irons")
