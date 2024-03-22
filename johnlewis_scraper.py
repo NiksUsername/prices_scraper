@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
 
+from main import is_big_discount
+
 header = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
@@ -46,7 +48,8 @@ def get_new_prices(url, page_number=1, chunk=1):
                 "old_price": price
             }
             if link in prices:
-                if prices[link]["old_price"]*0.99 >= price and price != prices[link]["price"] and link not in temporary_discounts:
+                item_data["old_price"] = prices[link]["old_price"]
+                if prices[link]["old_price"] != price and price != prices[link]["price"] and link not in temporary_discounts and is_big_discount(item_data):
                     item_data["old_price"] = prices[link]["old_price"]
                     prices[link]["price"] = price
                     discounts_list.append(item_data)

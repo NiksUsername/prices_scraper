@@ -3,6 +3,8 @@ from datetime import datetime, timedelta
 from curl_cffi import requests
 from bs4 import BeautifulSoup
 
+from main import is_big_discount
+
 url = "https://www.game.co.uk/en/playstation/games/?contentOnly=&inStockOnly=true&listerOnly=&pageSize=600"
 headers = {
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
@@ -77,7 +79,8 @@ def get_new_prices(url, page=1):
             item_data["old_price"] = item_data["price"]
 
             if item_data["link"] in prices:
-                if prices[item_data["link"]]["old_price"]*0.65 >= item_data["price"] and item_data["price"] != prices[item_data["link"]]["price"] and item_data["link"] not in discounts:
+                item_data["old_price"] = prices[item_data["link"]]["old_price"]
+                if prices[item_data["link"]]["old_price"] != item_data["price"] and item_data["price"] != prices[item_data["link"]]["price"] and item_data["link"] not in discounts and is_big_discount(item_data):
                     item_data["old_price"] = prices[item_data["link"]]["old_price"]
                     prices[item_data["link"]]["price"] = item_data["price"]
                     game_data.append(item_data)
