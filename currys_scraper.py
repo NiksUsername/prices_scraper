@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from curl_cffi import requests
 from bs4 import BeautifulSoup
 
-from main import is_big_discount
+from discount_properties import is_big_discount
 
 header = {
     'User-Agent': ' Mozilla/5.0 (Macintosh; Intel Mac OS X 14_2_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.234 Safari/537.36',

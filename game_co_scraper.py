@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from curl_cffi import requests
 from bs4 import BeautifulSoup
 
-from main import is_big_discount
+from discount_properties import is_big_discount
 
 url = "https://www.game.co.uk/en/playstation/games/?contentOnly=&inStockOnly=true&listerOnly=&pageSize=600"
 headers = {
