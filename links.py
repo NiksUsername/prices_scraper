@@ -210,3 +210,86 @@ currys_links = [
     'https://www.currys.co.uk/gaming/pc-gaming/gaming-monitors',
     'https://www.currys.co.uk/gaming/pc-gaming/gaming-laptops'
 ]
+
+houseoffraser_links = ['https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_181SUNGLASSES', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_180WATCHES', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_FITNESSEQUIP', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_GAMENINTENDO', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_GAMEXBOX', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_GAMEPLAYST', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_GAMINGCHAIRS', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_901AUDIOTECHNOLOGY', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_427TOYSGAMES', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_520GARDEN', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_513PARTYWARE', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_ALLELECTRICALS', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_107HAIRCARE', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_106MENSGROOMING', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_104BATHBODY', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_102SKINCARE', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_100MAKEUP', 'https://www.houseoffraser.co.uk/product/getforcategory?categoryId=HOF_101PERFUMEAFTERSHAVE']
+
+coolshop_links = [
+    'https://www.selfridges.com/GB/en/cat/beauty/suncare-tanning/',
+    'https://www.selfridges.com/GB/en/cat/beauty/travel-size-beauty/',
+    'https://www.selfridges.com/GB/en/cat/beauty/health-wellbeing/',
+    'https://www.selfridges.com/GB/en/cat/beauty/mens-grooming/',
+    'https://www.selfridges.com/GB/en/cat/beauty/bodycare/',
+    'https://www.selfridges.com/GB/en/cat/beauty/haircare/',
+    'https://www.selfridges.com/GB/en/cat/beauty/beauty-gift-sets/',
+    'https://www.selfridges.com/GB/en/cat/beauty/fragrance/',
+    'https://www.selfridges.com/GB/en/cat/beauty/make-up/',
+    'https://www.selfridges.com/GB/en/cat/beauty/skincare/',
+    'https://www.selfridges.com/GB/en/cat/jewellery-watches/luxury-watches/',
+    'https://www.selfridges.com/GB/en/cat/jewellery-watches/watches/',
+    'https://www.selfridges.com/GB/en/cat/home-tech/home/decorative-accessories/lighting/',
+    'https://www.selfridges.com/GB/en/cat/home-tech/home/household-electrical/fans-heaters/',
+    'https://www.selfridges.com/GB/en/cat/home-tech/home/stationery/',
+    'https://www.selfridges.com/GB/en/cat/home-tech/home/luxury-pet-accessories/',
+    'https://www.selfridges.com/GB/en/cat/home-tech/home/books/',
+    'https://www.selfridges.com/GB/en/cat/home-tech/home/household-electrical/',
+    'https://www.selfridges.com/GB/en/cat/home-tech/home/laundry-cleaning/',
+    'https://www.selfridges.com/GB/en/cat/home-tech/technology/',
+    'https://www.selfridges.com/GB/en/cat/home-tech/home/outdoors/',
+    "https://www.selfridges.com/GB/en/cat/kids/toy-shop/"
+]
+
+dell_links = [
+    'https://www.dell.com/en-uk/shop/power-cooling-data-center-infrastructure/ar/4116https://www.dell.com/en-uk/shop/power-cooling-data-center-infrastructure/ar/4116',
+    'https://www.dell.com/en-uk/shop/storage-drives-media/ar/5683',
+    'https://www.dell.com/en-uk/shop/audio/ar/8310https://www.dell.com/en-uk/shop/storage-drives-media/ar/5683',
+    'https://www.dell.com/en-uk/shop/pc-accessories/ar/5436',
+    'https://www.dell.com/en-uk/shop/deals/pc-accessories-dealshttps://www.dell.com/en-uk/shop/audio/ar/8310',
+    'https://www.dell.com/en-uk/shop/workstations/sr/workstations',
+    'https://www.dell.com/en-uk/shop/gaming-bags-apparel/ar/8220https://www.dell.com/en-uk/shop/pc-accessories/ar/5436',
+    'https://www.dell.com/en-uk/shop/gaming-audio/ar/8392',
+    'https://www.dell.com/en-uk/shop/gaming-accessories/ar/8222https://www.dell.com/en-uk/shop/deals/pc-accessories-deals',
+    'https://www.dell.com/en-uk/shop/gaming-and-games/sr/game-desktops',
+    'https://www.dell.com/en-uk/shop/gaming-and-games/sr/game-laptopshttps://www.dell.com/en-uk/shop/workstations/sr/workstations',
+    'https://www.dell.com/en-uk/shop/gaming-laptops-pcs-and-accessories/sr/game',
+    'https://www.dell.com/en-uk/shop/monitors/ar/8605https://www.dell.com/en-uk/shop/gaming-bags-apparel/ar/8220',
+    'https://www.dell.com/en-uk/shop/desktop-computers/sr/desktops',
+    'https://www.dell.com/en-uk/shop/laptops-2-in-1-pcs/sr/laptopshttps://www.dell.com/en-uk/shop/gaming-audio/ar/8392',
+    'https://www.dell.com/en-uk/shop/dell-poweredge-servers/sr/servers',
+    'https://www.dell.com/en-uk/shop/gaming-accessories/ar/8222'
+]
+
+ryman_links = [
+    'https://www.ryman.co.uk/hobbies-leisure',
+    'https://www.ryman.co.uk/stationery/arts-crafts',
+    'https://www.ryman.co.uk/electricals-technology',
+    'https://www.ryman.co.uk/office-supplies/postage-packaging-supplies',
+    'https://www.ryman.co.uk/office-supplies/safety-security',
+    'https://www.ryman.co.uk/office-supplies/desk-accessories/staplers-staples',
+    'https://www.ryman.co.uk/electricals-technology/home-office-machines/calculators',
+    'https://www.ryman.co.uk/paper-printing/paper',
+    'https://www.ryman.co.uk/all-special-offers/stationery-deals',
+    'https://www.ryman.co.uk/shop/eco-friendly-stationery',
+    'https://www.ryman.co.uk/stationery/school-supplies',
+    'https://www.ryman.co.uk/stationery/pens'
+]
+
+selfridges_links = [
+    'https://www.houseoffraser.co.uk/accessories/sunglasses/',
+    'https://www.houseoffraser.co.uk/accessories/watches/',
+    'https://www.houseoffraser.co.uk/sports/fitness-and-training/fitness-equipment/',
+    'https://www.houseoffraser.co.uk/gaming/nintendo/',
+    'https://www.houseoffraser.co.uk/gaming/xbox/',
+    'https://www.houseoffraser.co.uk/gaming/playstation/',
+    'https://www.houseoffraser.co.uk/gaming/gaming-chairs/',
+    'https://www.houseoffraser.co.uk/electricals/audio-and-technology/',
+    'https://www.houseoffraser.co.uk/kids-and-baby/toys/',
+    'https://www.houseoffraser.co.uk/home-and-furniture/garden/',
+    'https://www.houseoffraser.co.uk/home-and-furniture/partyware/',
+    'https://www.houseoffraser.co.uk/home-and-furniture/electricals/',
+    'https://www.houseoffraser.co.uk/beauty/haircare/',
+    'https://www.houseoffraser.co.uk/beauty/mens-grooming/',
+    'https://www.houseoffraser.co.uk/beauty/bath-and-body/',
+    'https://www.houseoffraser.co.uk/beauty/skincare/',
+    'https://www.houseoffraser.co.uk/beauty/makeup/',
+    'https://www.houseoffraser.co.uk/beauty/perfumes/',
+]
