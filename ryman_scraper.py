@@ -95,6 +95,3 @@ def get_new_prices(url, page_number=1):
     else:
         print("Failed to retrieve the page")
         return []
-
-
-get_new_prices("https://www.ryman.co.uk/hobbies-leisure")
