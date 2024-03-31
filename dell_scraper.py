@@ -66,8 +66,14 @@ def get_new_prices(url, page_number=1):
                 prices[link] = item_data.copy()
                 #item_data["old_price"] = 0
                 #discounts_list.append(item_data)
-
-        item_count = int(soup.find("span", class_="pageinfo").text.strip().split(" ")[4])
+        try:
+            item_count = soup.find("span", class_="pageinfo")
+            if item_count:
+                item_count = int(item_count.text.strip().split(" ")[4])
+            else:
+                item_count = int(soup.find(id = "result-count").find("h2").text.strip().split("\xa0")[0])
+        except:
+            item_count = 0
         if 12*page_number < item_count:
             time.sleep(0.5)
             for discount in get_new_prices(url,page_number+1):
@@ -82,3 +88,4 @@ def get_new_prices(url, page_number=1):
     else:
         print("Failed to retrieve the page")
         return []
+

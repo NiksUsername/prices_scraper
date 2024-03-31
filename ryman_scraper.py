@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from curl_cffi import requests
 from bs4 import BeautifulSoup
 
+import links
 from discount_properties import is_big_discount
 
 header = {
@@ -79,8 +80,10 @@ def get_new_prices(url, page_number=1):
                 prices[link] = item_data.copy()
                 #item_data["old_price"] = 0
                 #discounts_list.append(item_data)
-
-        item_count = int(soup.find_all("span", class_="toolbar-number")[2].text.strip())
+        try:
+            item_count = int(soup.find_all("span", class_="toolbar-number")[2].text.strip())
+        except Exception as e:
+            item_count = 0
         if 196*page_number < item_count:
             time.sleep(1)
             for discount in get_new_prices(url,page_number+1):

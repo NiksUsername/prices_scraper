@@ -35,7 +35,6 @@ temporary_discounts = {}
 
 
 def get_new_prices(url, page_number=1):
-    print(page_number)
     body = {
         "path":"_/show-only=in-stock/",
         "add_facets":{},
