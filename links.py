@@ -239,23 +239,22 @@ coolshop_links = [
 ]
 
 dell_links = [
-    'https://www.dell.com/en-uk/shop/power-cooling-data-center-infrastructure/ar/4116https://www.dell.com/en-uk/shop/power-cooling-data-center-infrastructure/ar/4116',
+    'https://www.dell.com/en-uk/shop/power-cooling-data-center-infrastructure/ar/4116',
     'https://www.dell.com/en-uk/shop/storage-drives-media/ar/5683',
-    'https://www.dell.com/en-uk/shop/audio/ar/8310https://www.dell.com/en-uk/shop/storage-drives-media/ar/5683',
+    'https://www.dell.com/en-uk/shop/audio/ar/8310',
     'https://www.dell.com/en-uk/shop/pc-accessories/ar/5436',
-    'https://www.dell.com/en-uk/shop/deals/pc-accessories-dealshttps://www.dell.com/en-uk/shop/audio/ar/8310',
+    'https://www.dell.com/en-uk/shop/deals/pc-accessories-deals',
     'https://www.dell.com/en-uk/shop/workstations/sr/workstations',
-    'https://www.dell.com/en-uk/shop/gaming-bags-apparel/ar/8220https://www.dell.com/en-uk/shop/pc-accessories/ar/5436',
+    'https://www.dell.com/en-uk/shop/gaming-bags-apparel/ar/8220',
     'https://www.dell.com/en-uk/shop/gaming-audio/ar/8392',
-    'https://www.dell.com/en-uk/shop/gaming-accessories/ar/8222https://www.dell.com/en-uk/shop/deals/pc-accessories-deals',
+    'https://www.dell.com/en-uk/shop/gaming-accessories/ar/8222',
     'https://www.dell.com/en-uk/shop/gaming-and-games/sr/game-desktops',
-    'https://www.dell.com/en-uk/shop/gaming-and-games/sr/game-laptopshttps://www.dell.com/en-uk/shop/workstations/sr/workstations',
+    'https://www.dell.com/en-uk/shop/gaming-and-games/sr/game-laptops',
     'https://www.dell.com/en-uk/shop/gaming-laptops-pcs-and-accessories/sr/game',
-    'https://www.dell.com/en-uk/shop/monitors/ar/8605https://www.dell.com/en-uk/shop/gaming-bags-apparel/ar/8220',
+    'https://www.dell.com/en-uk/shop/monitors/ar/8605',
     'https://www.dell.com/en-uk/shop/desktop-computers/sr/desktops',
-    'https://www.dell.com/en-uk/shop/laptops-2-in-1-pcs/sr/laptopshttps://www.dell.com/en-uk/shop/gaming-audio/ar/8392',
-    'https://www.dell.com/en-uk/shop/dell-poweredge-servers/sr/servers',
-    'https://www.dell.com/en-uk/shop/gaming-accessories/ar/8222'
+    'https://www.dell.com/en-uk/shop/laptops-2-in-1-pcs/sr/laptops',
+    'https://www.dell.com/en-uk/shop/dell-poweredge-servers/sr/servers'
 ]
 
 ryman_links = [

@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
 
+import links
 from discount_properties import is_big_discount
 
 header = {
@@ -25,7 +26,6 @@ prices = {}
 temporary_discounts = {}
 
 def get_new_prices(url, page_number=1):
-    print(page_number)
     response = requests.get(url+f"?page={page_number}", headers=header)
 
     if response.status_code == 200:
