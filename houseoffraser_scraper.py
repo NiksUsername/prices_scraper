@@ -51,10 +51,10 @@ def get_new_prices(url, page_number=1):
         discounts_list = []
         for item in items["products"]:
             name = f'{item["name"]} - {item["brand"]}'
-            price = float(item["price"].replace("£", ""))
+            price = float(item["price"].replace("£", "").replace(",", ""))
             old_price = item["ticketPrice"]
             if old_price:
-                old_price = float(old_price.replace("£", ""))
+                old_price = float(old_price.replace("£", "").replace(",", ""))
             else:
                 old_price = price
             link = "https://www.houseoffraser.co.uk/" + item["url"]

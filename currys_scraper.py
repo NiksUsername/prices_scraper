@@ -116,4 +116,3 @@ def get_new_prices(url, page_number=1, cgid=""):
         print("Failed to retrieve the page")
         return discounts_list
 
-get_new_prices("https://www.currys.co.uk/gaming/gaming-accessories/streaming-equipment")
