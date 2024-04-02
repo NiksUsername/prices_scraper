@@ -23,18 +23,18 @@ header = {
 }
 
 cookies = {
-    '__cf_bm':	"LQdwcCFCoFskM3VF4BTTp3.2yWIVQQug8fT_puITOLc-1711736734-1.0.1.1-.WFL_EFbdlyQ81cWAhWjOLIZxogv60vUqYBybjsEmyR6NGtcsd.B8oXZPttOXRyJWmbLe28tUlZpDtvqJsloE7egkRzxXV85wACDC2fOxWI",
+    '__cf_bm':	"XXoiLs7MmVIGAZj6XykAD84QQX1tZB4DY9NCbTko3yE-1712065965-1.0.1.1-RVys8vzoyvPLXzEeKcmDhAtexdcUy4J0iKrKD9dcY0qyN85s7vAGIJq2C_fATcVseWvFqNhQw_Ii0RqeoFGfIGhtZgtQ.1exQ0j75fvZsz4",
     '_cfuvid':	"fKg1EVNWZYY6YE.4.wKLjgz5J6SmVGfk0NtJAp_wZT0-1711706888561-0.0.1.1-604800000",
     '_cs_mk':	"0.3106511578746557_1711736763450",
-    'cf_clearance':	"R6m3nSnPa0u5Q3cWFxr2xwbiK7.yWM9506oTUCRsIZA-1711717168-1.0.1.1-lvgAbJDcKdT.lpTo8kZjYZ9TfVRzldH5ULM5uLNk65_Da537trH_hjqVA1vekwYDq91AfVhYcGHKnVimim31HQ",
+    'cf_clearance':	"qNOCFf_GjtzsCUggg19mziREE85lPNLqYy1TuO1lpMo-1711738615-1.0.1.1-YtcJnrKKogDU.yjLGOpZmchOJ3kSzXaxJDAEiUrBosjZc8aQ6G6NoLAaw9kxtbcLo_6R.r2EsTWMP_9DeKQ7QA",
     'CONSENTMGR':	"consent:true|ts:1711706920402",
     'COOKIE_NOTICE_SEEN':	"seen",
-    'JSESSIONID':	"00009mDNHdTGf9_2wbHkBZeyVvp:-1",
+    'JSESSIONID':	"0000Xfs_Qyg8Oxio8evrO1H0HmU:-1",
     'NEWSLETTER_DISMISSED':	"true",
     'SF_COUNTRY_LANG':	"GB_en",
     'SIGNUP_POPUP_SEEN':	"seen",
     'utag_chan':	'{"channel":"","channel_set":"","channel_converted":false,"awc":""}',
-    'utag_main':	"v_id:018d994d1bcf001cd2c3728cdee805050005200d00bd0$_sn:5$_ss:1$_st:1711738582010$dc_visit:5$_pn:1;exp-session$ses_id:1711736759098;exp-session$dc_event:1;exp-session"
+    'utag_main':	"v_id:018d994d1bcf001cd2c3728cdee805050005200d00bd0$_sn:7$_ss:1$_st:1711899001267$dc_visit:6$_pn:1;exp-session$ses_id:1711897201267;exp-session"
 }
 
 prices = {}
@@ -47,7 +47,6 @@ def get_new_prices(url, page_number=1):
     api_url = f"https://www.selfridges.com/api/cms/ecom/v1/GB/en/productview/byCategory/byIds?ids={category}&pageNumber={page_number}&pageSize=180"
     response = requests.get(api_url, headers=header, cookies=cookies, impersonate="chrome120")
     discounts_list = []
-    print(response.content)
 
     if response.status_code == 200:
 

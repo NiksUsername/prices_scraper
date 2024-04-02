@@ -314,7 +314,7 @@ async def send_selfridges_notification():
         print("Error: Channel not found.")
         return
     for link in selfridges_links:
-        await asyncio.sleep(1)
+        await asyncio.sleep(2)
         await asyncio.to_thread(get_selfridges_update, link)
     while not client.is_closed():
         try:
@@ -328,7 +328,7 @@ async def send_selfridges_notification():
                 if return_value:
                     for i in return_value:
                         await selected_channel.send(embed=i)
-                await asyncio.sleep(1)
+                await asyncio.sleep(2)
             delta = datetime.now() - curr_time
             await asyncio.sleep(max(300 - delta.total_seconds(), 0))
             curr_time = curr_time + timedelta(seconds=300)
