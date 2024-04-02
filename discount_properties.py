@@ -2,8 +2,6 @@ def is_big_discount(product):
     price = product.get('price', 0)
     old_price = product.get('old_price', 1)
     discount_percentage = (old_price - price) / old_price
-    if discount_percentage > 0:
-        return True
 
     if old_price < 17 and discount_percentage >= 0.7:
         return True
