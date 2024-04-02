@@ -28,7 +28,11 @@ argos_channel_id = 1215250546295050260
 laptops_direct_channel_id = 1216395055514783795
 john_lewis_channel_id = 1216394889567141940
 currys_channel_id = 1216395018697310239
-test_channel_id = 1217240029340893316
+houseoffraser_channel_id = 1223789428271485048
+dell_channel_id = 1223789521674567810
+coolshop_channel_id = 1223789470294478878
+selfridges_channel_id = 1223789398513160194
+ryman_channel_id = 1223789490737381459
 
 
 def get_laptops_update(url):
@@ -273,7 +277,8 @@ async def send_currys_notification():
 
 async def send_houseoffraser_notification():
     await client.wait_until_ready()
-    selected_channel = client.get_channel(test_channel_id)
+    print("started")
+    selected_channel = client.get_channel(houseoffraser_channel_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -283,7 +288,7 @@ async def send_houseoffraser_notification():
         await asyncio.to_thread(get_houseoffraser_update, link)
     while not client.is_closed():
         try:
-            selected_channel = client.get_channel(test_channel_id)
+            selected_channel = client.get_channel(houseoffraser_channel_id)
             for link in houseoffraser_links:
                 try:
                     return_value = await asyncio.to_thread(get_houseoffraser_update, link)
@@ -298,12 +303,12 @@ async def send_houseoffraser_notification():
             await asyncio.sleep(max(60 - delta.total_seconds(), 0))
             curr_time = curr_time + timedelta(seconds=300)
         except Exception:
-            print("Major John Lewis Exception")
+            print("Major house of fraser Exception")
 
 
 async def send_selfridges_notification():
     await client.wait_until_ready()
-    selected_channel = client.get_channel(test_channel_id)
+    selected_channel = client.get_channel(selfridges_channel_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -313,7 +318,7 @@ async def send_selfridges_notification():
         await asyncio.to_thread(get_selfridges_update, link)
     while not client.is_closed():
         try:
-            selected_channel = client.get_channel(test_channel_id)
+            selected_channel = client.get_channel(selfridges_channel_id)
             for link in selfridges_links:
                 try:
                     return_value = await asyncio.to_thread(get_selfridges_update, link)
@@ -328,12 +333,12 @@ async def send_selfridges_notification():
             await asyncio.sleep(max(300 - delta.total_seconds(), 0))
             curr_time = curr_time + timedelta(seconds=300)
         except Exception:
-            print("Major John Lewis Exception")
+            print("Major Selfridges Exception")
 
 
 async def send_dell_notification():
     await client.wait_until_ready()
-    selected_channel = client.get_channel(test_channel_id)
+    selected_channel = client.get_channel(dell_channel_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -343,7 +348,7 @@ async def send_dell_notification():
         await asyncio.to_thread(get_dell_update, link)
     while not client.is_closed():
         try:
-            selected_channel = client.get_channel(test_channel_id)
+            selected_channel = client.get_channel(dell_channel_id)
             for link in dell_links:
                 try:
                     return_value = await asyncio.to_thread(get_dell_update, link)
@@ -358,12 +363,12 @@ async def send_dell_notification():
             await asyncio.sleep(max(300 - delta.total_seconds(), 0))
             curr_time = curr_time + timedelta(seconds=300)
         except Exception:
-            print("Major John Lewis Exception")
+            print("Major Dell Exception")
 
 
 async def send_ryman_notification():
     await client.wait_until_ready()
-    selected_channel = client.get_channel(test_channel_id)
+    selected_channel = client.get_channel(ryman_channel_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -373,7 +378,7 @@ async def send_ryman_notification():
         await asyncio.to_thread(get_ryman_update, link)
     while not client.is_closed():
         try:
-            selected_channel = client.get_channel(test_channel_id)
+            selected_channel = client.get_channel(ryman_channel_id)
             for link in ryman_links:
                 try:
                     return_value = await asyncio.to_thread(get_ryman_update, link)
@@ -388,12 +393,12 @@ async def send_ryman_notification():
             await asyncio.sleep(max(300 - delta.total_seconds(), 0))
             curr_time = curr_time + timedelta(seconds=300)
         except Exception:
-            print("Major John Lewis Exception")
+            print("Major Ryman Exception")
 
 
 async def send_coolshop_notification():
     await client.wait_until_ready()
-    selected_channel = client.get_channel(test_channel_id)
+    selected_channel = client.get_channel(coolshop_channel_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -403,7 +408,7 @@ async def send_coolshop_notification():
         await asyncio.to_thread(get_coolshop_update, link)
     while not client.is_closed():
         try:
-            selected_channel = client.get_channel(test_channel_id)
+            selected_channel = client.get_channel(coolshop_channel_id)
             for link in coolshop_links:
                 try:
                     return_value = await asyncio.to_thread(get_coolshop_update, link)
@@ -418,7 +423,7 @@ async def send_coolshop_notification():
             await asyncio.sleep(max(300 - delta.total_seconds(), 0))
             curr_time = curr_time + timedelta(seconds=300)
         except Exception:
-            print("Major John Lewis Exception")
+            print("Major Coolshop Exception")
 
 
 # Event: Bot is ready
@@ -426,11 +431,19 @@ async def send_coolshop_notification():
 async def on_ready():
     print('Logged in as', client.user.name)
     print('------')
-    client.loop.create_task(send_houseoffraser_notification())
-    client.loop.create_task(send_ryman_notification())
-    client.loop.create_task(send_dell_notification())
-    client.loop.create_task(send_selfridges_notification())
-    client.loop.create_task(send_coolshop_notification())
+    await asyncio.gather(
+        send_game_notification(),
+        send_laptops_notification(),
+        send_argos_notification(),
+        send_currys_notification(),
+        send_johnlewis_notification(),
+        send_houseoffraser_notification(),
+        send_ryman_notification(),
+        send_dell_notification(),
+        send_selfridges_notification(),
+        send_coolshop_notification()
+    )
+
 
 # Event: Message received
 @client.event
@@ -443,5 +456,23 @@ async def on_message(message):
         print(game_channel_id)
         await message.channel.send(f"Channel successfully set")
 
-client.run(TOKEN)
+
+loop = asyncio.get_event_loop()
+
+
+async def run_bot():
+    try:
+        await client.start(TOKEN)
+    except Exception:
+        await client.close()
+
+
+async def main():
+    print("Starting gather")
+    await asyncio.gather(
+        run_bot()
+    )
+
+
+loop.run_until_complete(main())
 
