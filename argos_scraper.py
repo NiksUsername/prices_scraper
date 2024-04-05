@@ -37,24 +37,28 @@ def get_new_prices(url, page_number=1):
         for item in items:
             name = item.find('div', class_='ProductCardstyles__Title-h52kot-12').text.strip()
             price = float(item.find('div', class_='ProductCardstyles__PriceText-h52kot-16').text.strip().replace("£", ""))
+            old_price = item.find("div", class_="ProductCardstyles__WasText-h52kot-20")
+            if old_price:
+                old_price = float(old_price.text.replace("Was", "").strip().replace("£", ""))
+            else:
+                old_price = price
             link = "https://www.argos.co.uk" + item.find('a', class_='ProductCardstyles__Link-h52kot-13')['href']
 
             item_data = {
                 "name": name,
                 "price": price,
                 "link": link,
-                "old_price": price
+                "old_price": old_price
             }
             if link in prices:
-                item_data["old_price"] = prices[link]["old_price"]
                 if prices[link]["old_price"] != price and price != prices[link]["price"] and link not in temporary_discounts and is_big_discount(item_data):
                     item_data["old_price"] = prices[link]["old_price"]
                     prices[link]["price"] = price
                     discounts_list.append(item_data)
                     temporary_discounts[link] = datetime.now()
                 elif link not in temporary_discounts:
-                    if prices[link]["old_price"] < price:
-                        prices[link]["old_price"] = price
+                    if prices[link]["old_price"] < old_price:
+                        prices[link]["old_price"] = old_price
                     prices[link]["price"] = price
             else:
                 prices[link] = item_data.copy()

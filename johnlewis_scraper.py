@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import requests
 from bs4 import BeautifulSoup
 
+import links
 from discount_properties import is_big_discount
 
 header = {
@@ -24,8 +25,8 @@ temporary_discounts = {}
 
 
 def get_new_prices(url, page_number=1, chunk=1):
-    url = url.replace("https://www.johnlewis.com/browse/", "").replace("/", ",").replace(",_,", ",show-in-stock-items-only,_,")
-    api_url = f"https://www.johnlewis.com/standard-plp/api/product-chunks?page={page_number}&chunk={chunk}&term=&type=browse&facetId={url}&sortBy=&price=&priceBands=&listHead=&lolcode="
+    url_id = url.replace("https://www.johnlewis.com/browse/", "").replace("/", ",").replace(",_,", ",show-in-stock-items-only,_,")
+    api_url = f"https://www.johnlewis.com/standard-plp/api/product-chunks?page={page_number}&chunk={chunk}&term=&type=browse&facetId={url_id}&sortBy=&price=&priceBands=&listHead=&lolcode="
     response = requests.get(api_url, headers=header)
     discounts_list = []
 
@@ -36,27 +37,34 @@ def get_new_prices(url, page_number=1, chunk=1):
         for item in items:
             name = item["title"]
             try:
-                price = float(item["price"]["now"])
-            except TypeError:
-                price = float(item["price"]["now"]["from"])
+                price = float(item["price"]["now"].replace(",", ""))
+            except:
+                price = float(item["price"]["now"]["from"].replace(",", ""))
+
+            if item["price"]["was"]:
+                try:
+                    old_price = float(item["price"]["was"].replace(",", ""))
+                except:
+                    old_price = float(item["price"]["was"]["from"].replace(",", ""))
+            else:
+                old_price = price
             link = "https://www.johnlewis.com/item/p"+str(item["id"])
 
             item_data = {
                 "name": name,
                 "price": price,
                 "link": link,
-                "old_price": price
+                "old_price": old_price
             }
             if link in prices:
-                item_data["old_price"] = prices[link]["old_price"]
                 if prices[link]["old_price"] != price and price != prices[link]["price"] and link not in temporary_discounts and is_big_discount(item_data):
                     item_data["old_price"] = prices[link]["old_price"]
                     prices[link]["price"] = price
                     discounts_list.append(item_data)
                     temporary_discounts[link] = datetime.now()
                 elif link not in temporary_discounts:
-                    if prices[link]["old_price"] < price:
-                        prices[link]["old_price"] = price
+                    if prices[link]["old_price"] < old_price:
+                        prices[link]["old_price"] = old_price
                     prices[link]["price"] = price
             else:
                 prices[link] = item_data.copy()
@@ -82,3 +90,7 @@ def get_new_prices(url, page_number=1, chunk=1):
         print("Failed to retrieve the page")
         return discounts_list
 
+for url in links.john_lewis_links:
+    get_new_prices(url)
+    print(url)
+    time.sleep(2)

@@ -455,6 +455,33 @@ async def on_message(message):
         game_channel_id = message.channel.id
         print(game_channel_id)
         await message.channel.send(f"Channel successfully set")
+    elif message.content.startswith("!force_ping") and (message.guild is not None) and (message.guild.owner == message.author):
+        url = message.content.strip()
+        ping = ""
+        if "www.game.co.uk" in url:
+            ping = game_co_scraper.prices[url]
+        elif "www.argos.co.uk" in url:
+            ping = argos_scraper.prices[url]
+        elif "www.laptopsdirect.co.uk" in url:
+            ping = laptopsdirect_scraper.prices[url]
+        elif "www.johnlewis.com" in url:
+            ping = johnlewis_scraper.prices[url]
+        elif "www.currys.co.uk" in url:
+            ping = currys_scraper.prices[url]
+        elif "www.houseoffraser.co.uk" in url:
+            ping = houseoffraser_scraper.prices[url]
+        elif "www.coolshop.co.uk" in url:
+            ping = coolshop_scraper.prices[url]
+        elif "www.dell.com" in url:
+            ping = dell_scraper.prices[url]
+        elif "www.ryman.co.uk" in url:
+            ping = ryman_scraper.prices[url]
+        elif "www.selfridges.com" in url:
+            ping = selfridges_scraper.prices[url]
+        if ping:
+            ping_embed = get_updates(ping, "Force Ping")
+            await message.channel.send(embed=ping_embed)
+
 
 
 loop = asyncio.get_event_loop()
