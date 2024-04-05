@@ -77,7 +77,11 @@ def get_new_prices(url, page_number=1, cgid=""):
             price = float(item.find('div', class_='price-info').find("span", class_="value")["content"])
             old_price = item.find("span", class_="worse-price")
             if old_price:
-                old_price = float(old_price.text.replace("Was", "").strip().replace("£", ""))
+                old_price = old_price.text
+                if "Was" in old_price:
+                    old_price = float(old_price.replace("Was", "").strip().replace("£", ""))
+                elif "Save" in old_price:
+                    old_price = price + float(old_price.replace("Save", "").strip().replace("£", ""))
             else:
                 old_price = price
             link = "https://www.currys.co.uk" + item.find("a", class_="pdpLink")["href"]
@@ -118,4 +122,3 @@ def get_new_prices(url, page_number=1, cgid=""):
     else:
         print("Failed to retrieve the page")
         return discounts_list
-

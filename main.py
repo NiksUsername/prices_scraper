@@ -92,7 +92,7 @@ def get_updates(prices, website):
             old_price = "n/a"
             change = "n/a"
         else:
-            old_price = f"£{price['old_price']}"
+            old_price = f"£{round(price['old_price'], 2)}"
             change = str(round((price["old_price"] - price["price"]) / price["old_price"] * 100)) + "%"
         print(price)
         link_name = price["name"].replace(" ", "%20").replace("\xa0", "%20")
