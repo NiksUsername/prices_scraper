@@ -479,7 +479,7 @@ async def on_message(message):
         elif "www.selfridges.com" in url:
             ping = selfridges_scraper.prices[url]
         if ping:
-            ping_embed = get_updates(ping, "Force Ping")
+            ping_embed = get_updates([ping], "Force Ping")[0]
             await message.channel.send(embed=ping_embed)
         else:
             await message.channel.send("Failed to retrieve. Wrong url.")
