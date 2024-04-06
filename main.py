@@ -481,6 +481,8 @@ async def on_message(message):
         if ping:
             ping_embed = get_updates(ping, "Force Ping")
             await message.channel.send(embed=ping_embed)
+        else:
+            await message.channel.send("Failed to retrieve. Wrong url.")
 
 
 
