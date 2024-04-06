@@ -89,8 +89,3 @@ def get_new_prices(url, page_number=1, chunk=1):
     else:
         print("Failed to retrieve the page")
         return discounts_list
-
-for url in links.john_lewis_links:
-    get_new_prices(url)
-    print(url)
-    time.sleep(2)
