@@ -456,7 +456,7 @@ async def on_message(message):
         print(game_channel_id)
         await message.channel.send(f"Channel successfully set")
     elif message.content.startswith("!force_ping") and (message.guild is not None) and (message.guild.owner == message.author):
-        url = message.content.strip()
+        url = message.content.replace("!force_ping", "").strip()
         ping = ""
         if "www.game.co.uk" in url:
             ping = game_co_scraper.prices[url]
