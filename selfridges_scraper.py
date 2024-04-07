@@ -103,4 +103,5 @@ def get_new_prices(url, page_number=1):
 
     else:
         print("Failed to retrieve selfridges page")
+        print(response.content)
         return discounts_list
