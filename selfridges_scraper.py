@@ -74,7 +74,8 @@ def get_new_prices(url, page_number=1):
                 "old_price": old_price
             }
             if link in prices:
-                if prices[link]["old_price"] > price and price != prices[link]["price"] and link not in temporary_discounts:
+                item_data["old_price"] = prices[link]["old_price"]
+                if prices[link]["old_price"] > price and price != prices[link]["price"] and link not in temporary_discounts and is_big_discount(item_data):
                     item_data["old_price"] = prices[link]["old_price"]
                     prices[link]["price"] = price
                     discounts_list.append(item_data)
