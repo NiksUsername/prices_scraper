@@ -96,6 +96,9 @@ def get_updates(prices, website):
             change = str(round((price["old_price"] - price["price"]) / price["old_price"] * 100)) + "%"
         print(price)
         link_name = price["name"].replace(" ", "%20").replace("\xa0", "%20")
+        mobile_name = link_name.split("%20")
+        words_size = min(len(mobile_name), 5)
+        mobile_name = "%20".join(mobile_name[0:words_size])
         embed = discord.Embed(
             title=f"{price['name']}",
             description=f"New Price - £{price['price']} \n" \
@@ -105,8 +108,9 @@ def get_updates(prices, website):
                         f"[{website}]({price['link']}) \n"
                         f"\nLinks: \n"
                         f"[Amazon](https://www.amazon.co.uk/s?k={link_name}) | "
-                        f"[Keepa](https://keepa.com/#!search/1-{link_name}) | "
-                        f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={link_name})\n",
+                        f"[Keepa](https://keepa.com/#!search/2-{link_name}) | "
+                        f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={link_name}) | "
+                        f"[SellerAmp(Mobile)](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={mobile_name})\n",
             color=0x0000ff
         )
         messages.append(embed)
