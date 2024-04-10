@@ -73,7 +73,6 @@ def get_new_prices(url, page_number=1):
                 "link": link,
                 "old_price": old_price
             }
-            print(item_data)
             if link in prices:
                 item_data["old_price"] = prices[link]["old_price"]
                 if prices[link]["old_price"] > price and price != prices[link]["price"] and link not in temporary_discounts and is_big_discount(item_data):
@@ -104,5 +103,4 @@ def get_new_prices(url, page_number=1):
 
     else:
         print("Failed to retrieve selfridges page")
-        print(response.content)
         return discounts_list
