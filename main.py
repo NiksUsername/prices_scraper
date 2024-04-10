@@ -332,10 +332,10 @@ async def send_selfridges_notification():
                 if return_value:
                     for i in return_value:
                         await selected_channel.send(embed=i)
-                await asyncio.sleep(2)
+                await asyncio.sleep(3)
             delta = datetime.now() - curr_time
-            await asyncio.sleep(max(300 - delta.total_seconds(), 0))
-            curr_time = curr_time + timedelta(seconds=300)
+            await asyncio.sleep(max(900 - delta.total_seconds(), 0))
+            curr_time = curr_time + timedelta(seconds=900)
         except Exception:
             print("Major Selfridges Exception")
 
