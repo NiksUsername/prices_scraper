@@ -80,7 +80,7 @@ def get_new_prices(url, page=1):
 
             if item_data["link"] in prices:
                 item_data["old_price"] = prices[item_data["link"]]["old_price"]
-                if prices[item_data["link"]]["old_price"] != item_data["price"] and item_data["price"] != prices[item_data["link"]]["price"] and item_data["link"] not in discounts and is_big_discount(item_data):
+                if prices[item_data["link"]]["old_price"] > item_data["price"] and item_data["price"] != prices[item_data["link"]]["price"] and item_data["link"] not in discounts:
                     item_data["old_price"] = prices[item_data["link"]]["old_price"]
                     prices[item_data["link"]]["price"] = item_data["price"]
                     game_data.append(item_data)
