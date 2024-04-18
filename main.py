@@ -177,7 +177,7 @@ def get_keepa_difference(prices, website):
         embed.add_field(name="\nLinks: \n", value=f""
                         f"[Amazon](https://www.amazon.co.uk/dp/{price['ASIN']}) | "
                         f"[Keepa](https://keepa.com/#!product/2-{price['ASIN']}) | "
-                        f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={price['ASIN']}&sas_cost_price={price['price']}&sas_sale_price={keepa_price}) | \n",
+                        f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={price['ASIN']}&sas_cost_price={price['price']}&sas_sale_price={keepa_price})\n",
                         inline=False)
         messages.append(embed)
     return messages
