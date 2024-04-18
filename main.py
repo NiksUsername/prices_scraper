@@ -149,7 +149,7 @@ def get_updates(prices, website):
 def get_keepa_difference(prices, website):
     messages = []
     for price in prices:
-        keepa_price = f"£{round(price['keepa_price'], 2)}"
+        keepa_price = round(price['keepa_price'], 2)
         margin = str(round(price["margin"] * 100)) + "%"
         print(price)
         link_name = price["name"].replace(" ", "%20").replace("\xa0", "%20")
@@ -165,7 +165,7 @@ def get_keepa_difference(prices, website):
         embed.add_field(name="ASIN", value=f"{price['ASIN']}", inline=False)
         embed.add_field(name="\t", value="\t", inline=False)
         embed.add_field(name="Price", value=f"£{price['price']}", inline=True)
-        embed.add_field(name="Amazon Price", value=f"{keepa_price}", inline=True)
+        embed.add_field(name="Amazon Price", value=f"£{keepa_price}", inline=True)
         embed.add_field(name="\t", value="\t", inline=False)
         embed.add_field(name="Margin", value=f"{margin}", inline=True)
         embed.add_field(name="Expected Profit", value=f"£{round(price['margin']*price['keepa_price'],2)}", inline=True)
@@ -175,10 +175,9 @@ def get_keepa_difference(prices, website):
         embed.add_field(name="Website link:", value=f"[{website}]({price['link']}) \n", inline=False)
         embed.add_field(name="\t", value="\t", inline=False)
         embed.add_field(name="\nLinks: \n", value=f""
-                        f"[Amazon](https://www.amazon.co.uk/s?k={link_name}) | "
-                        f"[Keepa](https://keepa.com/#!search/2-{link_name}) | "
-                        f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={link_name}) | "
-                        f"[SellerAmp(Mobile)](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={mobile_name})\n",
+                        f"[Amazon](https://www.amazon.co.uk/dp/{price['ASIN']}) | "
+                        f"[Keepa](https://keepa.com/#!product/2-{price['ASIN']}) | "
+                        f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={price['ASIN']}&sas_cost_price={price['price']}&sas_sale_price={keepa_price}) | \n",
                         inline=False)
         messages.append(embed)
     return messages
