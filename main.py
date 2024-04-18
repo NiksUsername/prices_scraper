@@ -150,7 +150,7 @@ def get_keepa_difference(prices, website):
     messages = []
     for price in prices:
         keepa_price = f"£{round(price['keepa_price'], 2)}"
-        margin = str(round((price["margin"] * 100)) + "%")
+        margin = str(round(price["margin"] * 100)) + "%"
         print(price)
         link_name = price["name"].replace(" ", "%20").replace("\xa0", "%20")
         mobile_name = link_name.split("%20")
@@ -158,18 +158,28 @@ def get_keepa_difference(prices, website):
         mobile_name = "%20".join(mobile_name[0:words_size])
         embed = discord.Embed(
             title=f"{price['name']}",
-            description=f"Price - £{price['price']} \n" \
-                        f"Keepa Price - {keepa_price} \n" \
-                        f"Margin - {margin} \n\n"
-                        f"Website link: \n" \
-                        f"[{website}]({price['link']}) \n"
-                        f"\nLinks: \n"
+            description="",
+            color=0x0000ff
+        )
+        embed.add_field(name="\t", value="\t", inline=False)
+        embed.add_field(name="ASIN", value=f"{price['ASIN']}", inline=False)
+        embed.add_field(name="\t", value="\t", inline=False)
+        embed.add_field(name="Price", value=f"£{price['price']}", inline=True)
+        embed.add_field(name="Amazon Price", value=f"{keepa_price}", inline=True)
+        embed.add_field(name="\t", value="\t", inline=False)
+        embed.add_field(name="Margin", value=f"{margin}", inline=True)
+        embed.add_field(name="Expected Profit", value=f"£{round(price['margin']*price['keepa_price'],2)}", inline=True)
+        embed.add_field(name="\t", value="\t", inline=False)
+        embed.add_field(name="Average 90 Day Price", value=f"{price['avg']}", inline=False)
+        embed.add_field(name="\t", value="\t", inline=False)
+        embed.add_field(name="Website link:", value=f"[{website}]({price['link']}) \n", inline=False)
+        embed.add_field(name="\t", value="\t", inline=False)
+        embed.add_field(name="\nLinks: \n", value=f""
                         f"[Amazon](https://www.amazon.co.uk/s?k={link_name}) | "
                         f"[Keepa](https://keepa.com/#!search/2-{link_name}) | "
                         f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={link_name}) | "
                         f"[SellerAmp(Mobile)](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={mobile_name})\n",
-            color=0x0000ff
-        )
+                        inline=False)
         messages.append(embed)
     return messages
 

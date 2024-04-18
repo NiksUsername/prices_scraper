@@ -112,18 +112,20 @@ def get_keepa_results(price_drops):
             if not bar_code:
                 continue
 
-            compare_price, fee, fee_percentage = keepa_manager.get_from_bar_code(bar_code)
+            compare_price, fee, fee_percentage, asin, avg90 = keepa_manager.get_from_bar_code(bar_code)
             if not compare_price:
                 continue
-            profit = compare_price-price_drop["price"]-0.5-(compare_price/6 - price_drop["price"]/6) - fee - (compare_price*fee_percentage)
-            profit_margin = profit/compare_price
+            profit = compare_price - price_drop["price"] - 0.5 - (compare_price / 6 - price_drop["price"] / 6) - fee - (compare_price * fee_percentage)
+            profit_margin = profit / compare_price
             if profit_margin >= 0.15:
                 margin_ping = {
                     "keepa_price": compare_price,
                     "price": price_drop["price"],
                     "name": price_drop["name"],
                     "link": price_drop["link"],
-                    "margin": profit_margin
+                    "margin": profit_margin,
+                    "ASIN": asin,
+                    "avg": avg90
                 }
                 keepa_drops.append(margin_ping)
     return keepa_drops
