@@ -64,10 +64,10 @@ def get_johnlewis_update(url):
 def get_argos_update(url, check_keepa=True):
     prices = argos_scraper.get_new_prices(url)
     if check_keepa:
-        keepa_updates = get_keepa_difference(argos_scraper.get_keepa_results(prices), "www.ryman.co.uk")
+        keepa_updates = get_keepa_difference(argos_scraper.get_keepa_results(prices), "www.argos.co.uk")
     else:
         keepa_updates = []
-    site_updates = get_updates(prices, "www.ryman.co.uk")
+    site_updates = get_updates(prices, "www.argos.co.uk")
     return site_updates + (keepa_updates,)
 
 
@@ -98,9 +98,9 @@ def get_dell_update(url):
 
 def get_ryman_update(url, check_keepa=True):
     prices = ryman_scraper.get_new_prices(url)
-    if check_keepa: keepa_updates = get_keepa_difference(ryman_scraper.get_keepa_results(prices), "www.argos.co.uk")
+    if check_keepa: keepa_updates = get_keepa_difference(ryman_scraper.get_keepa_results(prices), "www.ryman.co.uk")
     else: keepa_updates = []
-    site_updates = get_updates(prices, "www.argos.co.uk")
+    site_updates = get_updates(prices, "www.ryman.co.uk")
     return site_updates + (keepa_updates,)
 
 
