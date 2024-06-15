@@ -61,18 +61,20 @@ def get_new_prices(url, page_number=1):
                 price = float(item.find('span', class_='price').text.strip().replace("£", "").replace(",", ""))
                 old_price = price
             link = label['href']
+            image = item.find("img")["src"]
 
             item_data = {
                 "name": name,
                 "price": price,
                 "link": link,
-                "old_price": old_price
+                "old_price": old_price,
+                "image": image
             }
             if link in prices:
                 item_data["old_price"] = prices[link]["old_price"]
                 if prices[link]["old_price"] > price and price != prices[link]["price"] and link not in temporary_discounts:
                     item_data["old_price"] = prices[link]["old_price"]
-                    prices[link]["previous_price"] = prices[link]["price"]
+                    item_data["previous_price"] = prices[link]["price"]
                     prices[link]["price"] = price
                     discounts_list.append(item_data)
                     temporary_discounts[link] = datetime.now()
@@ -110,9 +112,10 @@ def get_keepa_results(price_drops):
         if price_drop["old_price"] == 0 or price_drop["price"]/price_drop["previous_price"] <= 0.85:
             bar_code = get_bar_code(price_drop["link"])
             if not bar_code:
-                continue
+                compare_price, fee, fee_percentage, asin, avg90 = keepa_manager.get_from_title(price_drop["name"])
 
-            compare_price, fee, fee_percentage, asin, avg90 = keepa_manager.get_from_bar_code(bar_code)
+            else:
+                compare_price, fee, fee_percentage, asin, avg90 = keepa_manager.get_from_bar_code(bar_code)
             if not compare_price:
                 continue
             profit = compare_price - price_drop["price"] - 0.5 - (compare_price / 6 - price_drop["price"] / 6) - fee - (compare_price * fee_percentage)
@@ -125,7 +128,8 @@ def get_keepa_results(price_drops):
                     "link": price_drop["link"],
                     "margin": profit_margin,
                     "ASIN": asin,
-                    "avg": avg90
+                    "avg": avg90,
+                    "image": price_drop["image"]
                 }
                 keepa_drops.append(margin_ping)
     return keepa_drops
@@ -135,3 +139,4 @@ def get_bar_code(link):
     response = requests.get(link, headers=header, cookies=cookies)
     soup = BeautifulSoup(response.content, 'html.parser')
     return soup.find("div", class_="js-product-attribute-barcode").text.strip()
+

@@ -4,6 +4,8 @@ from datetime import datetime, timedelta
 from curl_cffi import requests
 from bs4 import BeautifulSoup
 
+import keepa_manager
+import links
 from discount_properties import is_big_discount
 
 header = {
@@ -80,17 +82,20 @@ def get_new_prices(url, page_number=1):
             else:
                 old_price = price
             link = "https://www.coolshop.co.uk" + label['href']
+            image = item.find("img")["src"]
 
             item_data = {
                 "name": name,
                 "price": price,
                 "link": link,
-                "old_price": old_price
+                "old_price": old_price,
+                "image": image
             }
             if link in prices:
                 item_data["old_price"] = prices[link]["old_price"]
                 if prices[link]["old_price"] > price and price != prices[link]["price"] and link not in temporary_discounts:
                     item_data["old_price"] = prices[link]["old_price"]
+                    item_data["previous_price"] = prices[link]["price"]
                     prices[link]["price"] = price
                     discounts_list.append(item_data)
                     temporary_discounts[link] = datetime.now()
@@ -100,8 +105,8 @@ def get_new_prices(url, page_number=1):
                     prices[link]["price"] = price
             else:
                 prices[link] = item_data.copy()
-                #item_data["old_price"] = 0
-                #discounts_list.append(item_data)
+                item_data["old_price"] = 0
+                discounts_list.append(item_data)
 
         item_count = int(data.get("count"))
         if 300*page_number < item_count:
@@ -118,3 +123,29 @@ def get_new_prices(url, page_number=1):
     else:
         print("Failed to retrieve coolshop page")
         return []
+
+
+def get_keepa_results(price_drops):
+    keepa_drops = []
+    for price_drop in price_drops:
+        if price_drop["old_price"] == 0 or price_drop["price"]/price_drop["previous_price"] <= 0.85:
+
+            compare_price, fee, fee_percentage, asin, avg90 = keepa_manager.get_from_title(price_drop["name"])
+            if not compare_price:
+                continue
+            profit = compare_price - price_drop["price"] - 0.5 - (compare_price / 6 - price_drop["price"] / 6) - fee - (
+                        compare_price * fee_percentage)
+            profit_margin = profit / compare_price
+            if profit_margin >= 0.15:
+                margin_ping = {
+                    "keepa_price": compare_price,
+                    "price": price_drop["price"],
+                    "name": price_drop["name"],
+                    "link": price_drop["link"],
+                    "margin": profit_margin,
+                    "ASIN": asin,
+                    "avg": avg90,
+                    "image": price_drop["image"]
+                }
+                keepa_drops.append(margin_ping)
+    return keepa_drops

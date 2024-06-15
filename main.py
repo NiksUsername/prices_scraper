@@ -47,19 +47,33 @@ coolshop_unfiltered_id = 1228366991803285504
 selfridges_unfiltered_id = 1228366906117984428
 ryman_unfiltered_id = 1228367022958575636
 
+game_keepa_id = 1250202981912018965
 argos_keepa_id = 1230501172633276496
+johnlewis_keepa_id = 1250203027525074964
+currys_keepa_id = 1250203062916747316
+laptopsdirect_keepa_id = 1250203112975630416
+selfridges_keepa_id = 1250203148774146088
+house_keepa_id = 1250203242747531416
+coolshop_keepa_id = 1250203273311420619
 ryman_keepa_id = 1230501232674865214
+dell_keepa_id = 1250203319612346468
 
 
-def get_laptops_update(url):
+
+def get_laptops_update(url, check_keepa=True):
     prices = laptopsdirect_scraper.get_new_prices(url)
-    return get_updates(prices, "www.laptopsdirect.co.uk")
+    if check_keepa: keepa_updates = get_keepa_difference(laptopsdirect_scraper.get_keepa_results(prices), "www.laptopsdirect.co.uk")
+    else: keepa_updates = []
+    site_updates = get_updates(prices, "www.laptopsdirect.co.uk")
+    return site_updates + (keepa_updates,)
 
 
-def get_johnlewis_update(url):
+def get_johnlewis_update(url, check_keepa=True):
     prices = johnlewis_scraper.get_new_prices(url)
-    return get_updates(prices, "www.johnlewis.com")
-
+    if check_keepa: keepa_updates = get_keepa_difference(johnlewis_scraper.get_keepa_results(prices), "www.johnlewis.com")
+    else: keepa_updates = []
+    site_updates = get_updates(prices, "www.johnlewis.com")
+    return site_updates + (keepa_updates,)
 
 def get_argos_update(url, check_keepa=True):
     prices = argos_scraper.get_new_prices(url)
@@ -71,29 +85,44 @@ def get_argos_update(url, check_keepa=True):
     return site_updates + (keepa_updates,)
 
 
-def get_games_update(url):
+def get_games_update(url, check_keepa=True):
     prices = game_co_scraper.get_new_prices(url+"?contentOnly=&inStockOnly=true&listerOnly=&pageSize=600&sortBy=MOST_POPULAR_DESC&pageNumber=1")
-    return get_updates(prices, "www.game.co.uk")
+    if check_keepa: keepa_updates = get_keepa_difference(game_co_scraper.get_keepa_results(prices), "www.game.co.uk")
+    else: keepa_updates = []
+    site_updates = get_updates(prices, "www.game.co.uk")
+    return site_updates + (keepa_updates,)
 
 
-def get_currys_update(url):
+def get_currys_update(url, check_keepa=True):
     prices = currys_scraper.get_new_prices(url)
-    return get_updates(prices, "www.currys.co.uk")
+    if check_keepa: keepa_updates = get_keepa_difference(currys_scraper.get_keepa_results(prices), "www.currys.co.uk")
+    else: keepa_updates = []
+    site_updates = get_updates(prices, "www.currys.co.uk")
+    return site_updates + (keepa_updates,)
 
 
-def get_houseoffraser_update(url):
+def get_houseoffraser_update(url, check_keepa=True):
     prices = houseoffraser_scraper.get_new_prices(url)
-    return get_updates(prices, "www.houseoffraser.co.uk")
+    if check_keepa: keepa_updates = get_keepa_difference(houseoffraser_scraper.get_keepa_results(prices), "www.houseoffraser.co.uk")
+    else: keepa_updates = []
+    site_updates = get_updates(prices, "www.houseoffraser.co.uk")
+    return site_updates + (keepa_updates,)
 
 
-def get_selfridges_update(url):
+def get_selfridges_update(url, check_keepa=True):
     prices = selfridges_scraper.get_new_prices(url)
-    return get_updates(prices, "www.selfridges.com")
+    if check_keepa: keepa_updates = get_keepa_difference(selfridges_scraper.get_keepa_results(prices), "www.selfridges.com")
+    else: keepa_updates = []
+    site_updates = get_updates(prices, "www.selfridges.com")
+    return site_updates + (keepa_updates,)
 
 
-def get_dell_update(url):
+def get_dell_update(url, check_keepa=True):
     prices = dell_scraper.get_new_prices(url)
-    return get_updates(prices, "www.dell.com")
+    if check_keepa: keepa_updates = get_keepa_difference(dell_scraper.get_keepa_results(prices), "www.dell.com")
+    else: keepa_updates = []
+    site_updates = get_updates(prices, "www.dell.com")
+    return site_updates + (keepa_updates,)
 
 
 def get_ryman_update(url, check_keepa=True):
@@ -104,9 +133,12 @@ def get_ryman_update(url, check_keepa=True):
     return site_updates + (keepa_updates,)
 
 
-def get_coolshop_update(url):
+def get_coolshop_update(url, check_keepa=True):
     prices = coolshop_scraper.get_new_prices(url)
-    return get_updates(prices, "www.coolshop.co.uk")
+    if check_keepa: keepa_updates = get_keepa_difference(coolshop_scraper.get_keepa_results(prices), "www.coolshop.co.uk")
+    else: keepa_updates = []
+    site_updates = get_updates(prices, "www.coolshop.co.uk")
+    return site_updates + (keepa_updates,)
 
 
 def get_updates(prices, website):
@@ -114,9 +146,9 @@ def get_updates(prices, website):
     unfiltered = []
     for price in prices:
         if price["old_price"] == 0:
+            old_price = "n/a"
+            change = "n/a"
             continue
-            #old_price = "n/a"
-            #change = "n/a"
         else:
             old_price = f"£{round(price['old_price'], 2)}"
             change = str(round((price["old_price"] - price["price"]) / price["old_price"] * 100)) + "%"
@@ -126,12 +158,10 @@ def get_updates(prices, website):
         words_size = min(len(mobile_name), 5)
         mobile_name = "%20".join(mobile_name[0:words_size])
         embed = discord.Embed(
-            title=f"{price['name']}",
-            description=f"New Price - £{price['price']} \n" \
+            description=f"Price Drop - {change} \n\n"
+                        f"Product: [{price['name']}]({price['link']})"
+                        f"New Price - £{price['price']} \n" \
                         f"Old Price - {old_price} \n" \
-                        f"Change - {change} \n\n"
-                        f"Website link: \n" \
-                        f"[{website}]({price['link']}) \n"
                         f"\nLinks: \n"
                         f"[Amazon](https://www.amazon.co.uk/s?k={link_name}) | "
                         f"[Keepa](https://keepa.com/#!search/2-{link_name}) | "
@@ -139,6 +169,7 @@ def get_updates(prices, website):
                         f"[SellerAmp(Mobile)](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={mobile_name})\n",
             color=0x0000ff
         )
+        embed.set_thumbnail(url=price["image"])
         if is_big_discount(price):
             messages.append(embed)
         else:
@@ -157,22 +188,21 @@ def get_keepa_difference(prices, website):
         words_size = min(len(mobile_name), 5)
         mobile_name = "%20".join(mobile_name[0:words_size])
         embed = discord.Embed(
-            title=f"{price['name']}",
+            title="",
             description="",
             color=0x0000ff
         )
+        embed.set_thumbnail(url=price["image"])
+        embed.add_field(name="Margin", value=f"{margin}", inline=True)
+        embed.add_field(name="Expected Profit", value=f"£{round(price['margin'] * price['keepa_price'], 2)}", inline=True)
         embed.add_field(name="\t", value="\t", inline=False)
+        embed.add_field(name="Product", value=f"[{price['name']}]({price['link']})",inline=False)
         embed.add_field(name="ASIN", value=f"{price['ASIN']}", inline=False)
         embed.add_field(name="\t", value="\t", inline=False)
         embed.add_field(name="Price", value=f"£{price['price']}", inline=True)
         embed.add_field(name="Amazon Price", value=f"£{keepa_price}", inline=True)
         embed.add_field(name="\t", value="\t", inline=False)
-        embed.add_field(name="Margin", value=f"{margin}", inline=True)
-        embed.add_field(name="Expected Profit", value=f"£{round(price['margin']*price['keepa_price'],2)}", inline=True)
-        embed.add_field(name="\t", value="\t", inline=False)
         embed.add_field(name="Average 90 Day Price", value=f"{price['avg']}", inline=False)
-        embed.add_field(name="\t", value="\t", inline=False)
-        embed.add_field(name="Website link:", value=f"[{website}]({price['link']}) \n", inline=False)
         embed.add_field(name="\t", value="\t", inline=False)
         embed.add_field(name="\nLinks: \n", value=f""
                         f"[Amazon](https://www.amazon.co.uk/dp/{price['ASIN']}) | "
@@ -187,6 +217,7 @@ async def send_game_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(game_channel_id)
     unfiltered_channel = client.get_channel(game_unfiltered_id)
+    keepa_channel = client.get_channel(game_keepa_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -196,7 +227,7 @@ async def send_game_notification():
             selected_channel = client.get_channel(game_channel_id)
             for link in game_links:
                 try:
-                    return_value, unfiltered_value = await asyncio.to_thread(get_games_update, link)
+                    return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_games_update, link, True)
                 except Exception as e:
                     print(e.with_traceback)
                     print("game")
@@ -207,6 +238,9 @@ async def send_game_notification():
                 if unfiltered_value:
                     for i in unfiltered_value:
                         await unfiltered_channel.send(embed=i)
+                if keepa_value:
+                    for i in keepa_value:
+                        await send_message(keepa_channel, i)
                 await asyncio.sleep(1)
             delta = datetime.now() - curr_time
             now = datetime.now()
@@ -250,7 +284,7 @@ async def send_argos_notification():
                         await unfiltered_channel.send(embed=i)
                 if keepa_value:
                     for i in keepa_value:
-                        await keepa_channel.send(embed=i)
+                        await send_message(keepa_channel, i)
                 await asyncio.sleep(1)
             delta = datetime.now() - curr_time
             now = datetime.now()
@@ -267,19 +301,20 @@ async def send_laptops_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(laptops_direct_channel_id)
     unfiltered_channel = client.get_channel(laptops_direct_unfiltered_id)
+    keepa_channel = client.get_channel(laptopsdirect_keepa_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
         return
     for link in laptops_direct_links:
         await asyncio.sleep(1)
-        await asyncio.to_thread(get_laptops_update, link)
+        await asyncio.to_thread(get_laptops_update, link, False)
     while not client.is_closed():
         try:
             selected_channel = client.get_channel(laptops_direct_channel_id)
             for link in laptops_direct_links:
                 try:
-                    return_value, unfiltered_value = await asyncio.to_thread(get_laptops_update, link)
+                    return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_laptops_update, link, True)
                 except Exception as e:
                     print(e.with_traceback)
                     continue
@@ -289,6 +324,9 @@ async def send_laptops_notification():
                 if unfiltered_value:
                     for i in unfiltered_value:
                         await unfiltered_channel.send(embed=i)
+                if keepa_value:
+                    for i in keepa_value:
+                        await send_message(keepa_channel, i)
                 await asyncio.sleep(1)
             delta = datetime.now() - curr_time
             await asyncio.sleep(max(300 - delta.total_seconds(), 0))
@@ -301,19 +339,20 @@ async def send_johnlewis_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(john_lewis_channel_id)
     unfiltered_channel = client.get_channel(john_lewis_unfiltered_id)
+    keepa_channel = client.get_channel(johnlewis_keepa_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
         return
     for link in john_lewis_links:
         await asyncio.sleep(1)
-        await asyncio.to_thread(get_johnlewis_update, link)
+        await asyncio.to_thread(get_johnlewis_update, link, False)
     while not client.is_closed():
         try:
             selected_channel = client.get_channel(john_lewis_channel_id)
             for link in john_lewis_links:
                 try:
-                    return_value, unfiltered_value = await asyncio.to_thread(get_johnlewis_update, link)
+                    return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_johnlewis_update, link, True)
                 except Exception as e:
                     print(e.with_traceback)
                     continue
@@ -323,6 +362,9 @@ async def send_johnlewis_notification():
                 if unfiltered_value:
                     for i in unfiltered_value:
                         await unfiltered_channel.send(embed=i)
+                if keepa_value:
+                    for i in keepa_value:
+                        await send_message(keepa_channel, i)
                 await asyncio.sleep(1)
             delta = datetime.now() - curr_time
             now = datetime.now()
@@ -339,19 +381,20 @@ async def send_currys_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(currys_channel_id)
     unfiltered_channel = client.get_channel(currys_unfiltered_id)
+    keepa_channel = client.get_channel(currys_keepa_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
         return
     for link in currys_links:
         await asyncio.sleep(0.5)
-        await asyncio.to_thread(get_currys_update, link)
+        await asyncio.to_thread(get_currys_update, link, False)
     while not client.is_closed():
         try:
             selected_channel = client.get_channel(currys_channel_id)
             for link in currys_links:
                 try:
-                    return_value, unfiltered_value = await asyncio.to_thread(get_currys_update, link)
+                    return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_currys_update, link, True)
                 except Exception as e:
                     print(e.with_traceback)
                     continue
@@ -361,6 +404,9 @@ async def send_currys_notification():
                 if unfiltered_value:
                     for i in unfiltered_value:
                         await unfiltered_channel.send(embed=i)
+                if keepa_value:
+                    for i in keepa_value:
+                        await send_message(keepa_channel, i)
                 await asyncio.sleep(0.5)
             delta = datetime.now() - curr_time
             await asyncio.sleep(max(300 - delta.total_seconds(), 0))
@@ -374,19 +420,20 @@ async def send_houseoffraser_notification():
     print("started")
     selected_channel = client.get_channel(houseoffraser_channel_id)
     unfiltered_channel = client.get_channel(houseoffraser_unfiltered_id)
+    keepa_channel = client.get_channel(house_keepa_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
         return
     for link in houseoffraser_links:
         await asyncio.sleep(0.5)
-        await asyncio.to_thread(get_houseoffraser_update, link)
+        await asyncio.to_thread(get_houseoffraser_update, link, False)
     while not client.is_closed():
         try:
             selected_channel = client.get_channel(houseoffraser_channel_id)
             for link in houseoffraser_links:
                 try:
-                    return_value, unfiltered_value = await asyncio.to_thread(get_houseoffraser_update, link)
+                    return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_houseoffraser_update, link, True)
                 except Exception as e:
                     print(e.with_traceback)
                     continue
@@ -396,6 +443,9 @@ async def send_houseoffraser_notification():
                 if unfiltered_value:
                     for i in unfiltered_value:
                         await unfiltered_channel.send(embed=i)
+                if keepa_value:
+                    for i in keepa_value:
+                        await send_message(keepa_channel, i)
                 await asyncio.sleep(0.5)
             delta = datetime.now() - curr_time
             await asyncio.sleep(max(60 - delta.total_seconds(), 0))
@@ -408,19 +458,20 @@ async def send_selfridges_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(selfridges_channel_id)
     unfiltered_channel = client.get_channel(selfridges_unfiltered_id)
+    keepa_channel = client.get_channel(selfridges_keepa_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
         return
     for link in selfridges_links:
         await asyncio.sleep(2)
-        await asyncio.to_thread(get_selfridges_update, link)
+        await asyncio.to_thread(get_selfridges_update, link, False)
     while not client.is_closed():
         try:
             selected_channel = client.get_channel(selfridges_channel_id)
             for link in selfridges_links:
                 try:
-                    return_value, unfiltered_value = await asyncio.to_thread(get_selfridges_update, link)
+                    return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_selfridges_update, link, True)
                 except Exception as e:
                     print(e.with_traceback)
                     continue
@@ -430,6 +481,9 @@ async def send_selfridges_notification():
                 if unfiltered_value:
                     for i in unfiltered_value:
                         await unfiltered_channel.send(embed=i)
+                if keepa_value:
+                    for i in keepa_value:
+                        await send_message(keepa_channel, i)
                 await asyncio.sleep(3)
             delta = datetime.now() - curr_time
             await asyncio.sleep(max(900 - delta.total_seconds(), 0))
@@ -442,19 +496,20 @@ async def send_dell_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(dell_channel_id)
     unfiltered_channel = client.get_channel(dell_unfiltered_id)
+    keepa_channel = client.get_channel(dell_keepa_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
         return
     for link in dell_links:
         await asyncio.sleep(0.5)
-        await asyncio.to_thread(get_dell_update, link)
+        await asyncio.to_thread(get_dell_update, link, False)
     while not client.is_closed():
         try:
             selected_channel = client.get_channel(dell_channel_id)
             for link in dell_links:
                 try:
-                    return_value, unfiltered_value = await asyncio.to_thread(get_dell_update, link)
+                    return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_dell_update, link, True)
                 except Exception as e:
                     print(e.with_traceback)
                     continue
@@ -464,11 +519,14 @@ async def send_dell_notification():
                 if unfiltered_value:
                     for i in unfiltered_value:
                         await unfiltered_channel.send(embed=i)
+                if keepa_value:
+                    for i in keepa_value:
+                        await send_message(keepa_channel, i)
                 await asyncio.sleep(0.5)
             delta = datetime.now() - curr_time
             await asyncio.sleep(max(300 - delta.total_seconds(), 0))
             curr_time = curr_time + timedelta(seconds=300)
-        except Exception:
+        except Exception as x:
             print("Major Dell Exception")
 
 
@@ -501,7 +559,7 @@ async def send_ryman_notification():
                         await unfiltered_channel.send(embed=i)
                 if keepa_value:
                     for i in keepa_value:
-                        await keepa_channel.send(embed=i)
+                        await send_message(keepa_channel, i)
                 await asyncio.sleep(0.5)
             delta = datetime.now() - curr_time
             await asyncio.sleep(max(300 - delta.total_seconds(), 0))
@@ -514,19 +572,21 @@ async def send_coolshop_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(coolshop_channel_id)
     unfiltered_channel = client.get_channel(coolshop_unfiltered_id)
+    keepa_channel = client.get_channel(coolshop_keepa_id)
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
         return
-    for link in coolshop_links:
-        await asyncio.sleep(0.5)
-        await asyncio.to_thread(get_coolshop_update, link)
+    for stop in range(3):
+        for link in coolshop_links:
+            await asyncio.sleep(0.5)
+            await asyncio.to_thread(get_coolshop_update, link, False)
     while not client.is_closed():
         try:
             selected_channel = client.get_channel(coolshop_channel_id)
             for link in coolshop_links:
                 try:
-                    return_value, unfiltered_value = await asyncio.to_thread(get_coolshop_update, link)
+                    return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_coolshop_update, link, True)
                 except Exception as e:
                     print(e.with_traceback)
                     continue
@@ -536,12 +596,28 @@ async def send_coolshop_notification():
                 if unfiltered_value:
                     for i in unfiltered_value:
                         await unfiltered_channel.send(embed=i)
+                if keepa_value:
+                    for i in keepa_value:
+                        await send_message(keepa_channel, i)
                 await asyncio.sleep(0.5)
             delta = datetime.now() - curr_time
             await asyncio.sleep(max(300 - delta.total_seconds(), 0))
             curr_time = curr_time + timedelta(seconds=300)
         except Exception:
             print("Major Coolshop Exception")
+
+
+async def send_message(channel_id, message):
+    keepa_client = discord.Client(intents=discord.Intents.default())
+
+    @client.event
+    async def on_ready():
+        channel = client.get_channel(channel_id)
+        if channel:
+            await channel.send(message)
+        await client.close()
+
+    await client.start(BOT_KEEPA)
 
 
 # Event: Bot is ready
