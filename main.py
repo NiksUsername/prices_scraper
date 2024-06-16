@@ -614,9 +614,9 @@ async def send_message(channel, message):
     async def on_ready():
         if channel:
             await channel.send(message)
-        await client.close()
+        await keepa_client.close()
 
-    await client.start(BOT_KEEPA)
+    await keepa_client.start(BOT_KEEPA)
 
 
 # Event: Bot is ready
