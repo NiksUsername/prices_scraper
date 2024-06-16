@@ -98,7 +98,7 @@ def get_new_prices(url, page_number=1):
                 old_price = float(old_price.text.replace("Was", "").strip().replace("£", ""))
             else:
                 old_price = price
-            link = "https://www.argos.co.uk" + item.find('a', class_='ProductCardstyles__Link-h52kot-13')['href']
+            link = "https://www.argos.co.uk" + item.find('a', class_='ProductCardstyles__Link-h52kot-13')['href'].split("?")[0]
             image = f"https://media.4rgos.it/s/Argos/{link.split('/')[4].split('?')[0]}_R_SET?w=270&h=270&qlt=75&fmt.jpeg.interlaced=true"
 
             item_data = {
@@ -138,7 +138,7 @@ def get_new_prices(url, page_number=1):
         return discounts_list
 
     else:
-        print("Failed to retrieve the page")
+        print("Failed to retrieve argos page")
         return []
 
 
