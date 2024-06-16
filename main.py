@@ -607,12 +607,11 @@ async def send_coolshop_notification():
             print("Major Coolshop Exception")
 
 
-async def send_message(channel_id, message):
+async def send_message(channel, message):
     keepa_client = discord.Client(intents=discord.Intents.default())
 
     @client.event
     async def on_ready():
-        channel = client.get_channel(channel_id)
         if channel:
             await channel.send(message)
         await client.close()

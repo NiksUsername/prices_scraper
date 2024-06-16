@@ -105,7 +105,7 @@ def get_keepa_results(price_drops):
                         compare_price * fee_percentage)
 
             profit_margin = profit / compare_price
-            if profit_margin >= 0:
+            if profit_margin >= 0.1:
                 margin_ping = {
                     "keepa_price": compare_price,
                     "price": price_drop["price"],
