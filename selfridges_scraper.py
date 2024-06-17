@@ -5,6 +5,7 @@ from curl_cffi import requests
 from bs4 import BeautifulSoup
 
 import keepa_manager
+import links
 from discount_properties import is_big_discount
 
 header = {
@@ -47,6 +48,7 @@ def get_new_prices(url, page_number=1):
     category = category[0:len(category)-1]
     api_url = f"https://www.selfridges.com/api/cms/ecom/v1/GB/en/productview/byCategory/byIds?ids={category}&pageNumber={page_number}&pageSize=180"
     response = requests.get(api_url, headers=header, cookies=cookies, impersonate="chrome120")
+    print(api_url)
     discounts_list = []
 
     if response.status_code == 200:
@@ -54,45 +56,49 @@ def get_new_prices(url, page_number=1):
         items = response.json()
 
         for item in items["catalogEntryNavView"]:
-            name = item["name"]
-            price_object = item["price"][0]
-            price = float(price_object["lowestPrice"])
-            old_price = price_object.get("lowestWasWasPrice")
-            if old_price:
-                old_price = float(old_price)
-            else:
-                old_price = price_object.get("lowestWasPrice")
+            try:
+                name = item["name"]
+                price_object = item["price"][0]
+                price = float(price_object["lowestPrice"])
+                old_price = price_object.get("lowestWasWasPrice")
                 if old_price:
                     old_price = float(old_price)
                 else:
-                    old_price = price
-            link = "https://www.selfridges.com/GB/en/product/"+str(item["seoKey"])
-            image = item.find("img", class_="c-prod-card__images-image")["src"]
+                    old_price = price_object.get("lowestWasPrice")
+                    if old_price:
+                        old_price = float(old_price)
+                    else:
+                        old_price = price
+                link = "https://www.selfridges.com/GB/en/product/"+str(item["seoKey"])
+                imageName = item["imageName"]
+                id = item["imageName"].replace("_M", "")
+                image = f"https://images.selfridges.com/is/image/selfridges/{id}_ALT10?defaultImage={imageName}&$PLP_ALL$"
+                item_data = {
+                    "name": name,
+                    "price": price,
+                    "link": link,
+                    "old_price": old_price,
+                    "image":image
+                }
 
-            item_data = {
-                "name": name,
-                "price": price,
-                "link": link,
-                "old_price": old_price,
-                "image":image
-            }
-
-            if link in prices:
-                item_data["old_price"] = prices[link]["old_price"]
-                if prices[link]["old_price"] > price and price != prices[link]["price"] and link not in temporary_discounts:
+                if link in prices:
                     item_data["old_price"] = prices[link]["old_price"]
-                    item_data["previous_price"] = prices[link]["price"]
-                    prices[link]["price"] = price
+                    if prices[link]["old_price"] > price and price != prices[link]["price"] and link not in temporary_discounts:
+                        item_data["old_price"] = prices[link]["old_price"]
+                        item_data["previous_price"] = prices[link]["price"]
+                        prices[link]["price"] = price
+                        discounts_list.append(item_data)
+                        temporary_discounts[link] = datetime.now()
+                    elif link not in temporary_discounts:
+                        if prices[link]["old_price"] < old_price:
+                            prices[link]["old_price"] = old_price
+                        prices[link]["price"] = price
+                else:
+                    prices[link] = item_data.copy()
+                    item_data["old_price"] = 0
                     discounts_list.append(item_data)
-                    temporary_discounts[link] = datetime.now()
-                elif link not in temporary_discounts:
-                    if prices[link]["old_price"] < old_price:
-                        prices[link]["old_price"] = old_price
-                    prices[link]["price"] = price
-            else:
-                prices[link] = item_data.copy()
-                item_data["old_price"] = 0
-                discounts_list.append(item_data)
+            except:
+                pass
 
         item_count = int(items["recordSetTotal"])
         if 180 * page_number < item_count:

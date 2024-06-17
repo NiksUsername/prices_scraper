@@ -4,6 +4,7 @@ from curl_cffi import requests
 from bs4 import BeautifulSoup
 
 import keepa_manager
+import links
 from discount_properties import is_big_discount
 
 header = {
@@ -86,7 +87,7 @@ def get_new_prices(url, page_number=1, cgid=""):
             else:
                 old_price = price
             link = "https://www.currys.co.uk" + item.find("a", class_="pdpLink")["href"]
-            image = item.find("img", class_="tile-image")["src"]
+            image = item.find("img", class_="tile-image")["data-src"]
 
             item_data = {
                 "name": name,

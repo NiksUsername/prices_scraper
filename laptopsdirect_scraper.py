@@ -45,7 +45,10 @@ def get_new_prices(url, page_number=1):
                 old_price = price
             link = "https://www.laptopsdirect.co.uk" + name['href']
             name = name.text.strip()
-            image = item.find("img", class_="offerImage")["src"]
+            try:
+                image = "https://www.laptopsdirect.co.uk"+ item.find("img", class_="offerImage")["data-original"]
+            except:
+                image = "https://www.laptopsdirect.co.uk" + item.find("img", class_="offerImage")["src"]
 
             item_data = {
                 "name": name,
