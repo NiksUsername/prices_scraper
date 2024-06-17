@@ -48,7 +48,6 @@ def get_new_prices(url, page_number=1):
     category = category[0:len(category)-1]
     api_url = f"https://www.selfridges.com/api/cms/ecom/v1/GB/en/productview/byCategory/byIds?ids={category}&pageNumber={page_number}&pageSize=180"
     response = requests.get(api_url, headers=header, cookies=cookies, impersonate="chrome120")
-    print(api_url)
     discounts_list = []
 
     if response.status_code == 200:
