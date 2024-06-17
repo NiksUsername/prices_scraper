@@ -223,6 +223,7 @@ async def send_game_notification():
         print("Error: Channel not found.")
         return
     while not client.is_closed():
+        print("game")
         try:
             selected_channel = client.get_channel(game_channel_id)
             for link in game_links:
@@ -267,6 +268,7 @@ async def send_argos_notification():
         await asyncio.sleep(1)
         await asyncio.to_thread(get_argos_update, link, False)
     while not client.is_closed():
+        print("argos")
         try:
             selected_channel = client.get_channel(argos_channel_id)
             for link in argos_links:
@@ -310,6 +312,7 @@ async def send_laptops_notification():
         await asyncio.sleep(1)
         await asyncio.to_thread(get_laptops_update, link, False)
     while not client.is_closed():
+        print("laptops")
         try:
             selected_channel = client.get_channel(laptops_direct_channel_id)
             for link in laptops_direct_links:
@@ -348,6 +351,7 @@ async def send_johnlewis_notification():
         await asyncio.sleep(1)
         await asyncio.to_thread(get_johnlewis_update, link, False)
     while not client.is_closed():
+        print("johnlewis")
         try:
             selected_channel = client.get_channel(john_lewis_channel_id)
             for link in john_lewis_links:
@@ -390,6 +394,7 @@ async def send_currys_notification():
         await asyncio.sleep(0.5)
         await asyncio.to_thread(get_currys_update, link, False)
     while not client.is_closed():
+        print("currys")
         try:
             selected_channel = client.get_channel(currys_channel_id)
             for link in currys_links:
@@ -429,6 +434,7 @@ async def send_houseoffraser_notification():
         await asyncio.sleep(0.5)
         await asyncio.to_thread(get_houseoffraser_update, link, False)
     while not client.is_closed():
+        print("house")
         try:
             selected_channel = client.get_channel(houseoffraser_channel_id)
             for link in houseoffraser_links:
@@ -467,6 +473,7 @@ async def send_selfridges_notification():
         await asyncio.sleep(2)
         await asyncio.to_thread(get_selfridges_update, link, False)
     while not client.is_closed():
+        print("selfridges")
         try:
             selected_channel = client.get_channel(selfridges_channel_id)
             for link in selfridges_links:
@@ -505,6 +512,7 @@ async def send_dell_notification():
         await asyncio.sleep(0.5)
         await asyncio.to_thread(get_dell_update, link, False)
     while not client.is_closed():
+        print("dell")
         try:
             selected_channel = client.get_channel(dell_channel_id)
             for link in dell_links:
@@ -543,6 +551,7 @@ async def send_ryman_notification():
         await asyncio.sleep(0.5)
         await asyncio.to_thread(get_ryman_update, link, False)
     while not client.is_closed():
+        print("ryman")
         try:
             selected_channel = client.get_channel(ryman_channel_id)
             for link in ryman_links:
@@ -582,6 +591,7 @@ async def send_coolshop_notification():
             await asyncio.sleep(0.5)
             await asyncio.to_thread(get_coolshop_update, link, False)
     while not client.is_closed():
+        print("coolshop")
         try:
             selected_channel = client.get_channel(coolshop_channel_id)
             for link in coolshop_links:
