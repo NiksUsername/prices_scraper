@@ -312,9 +312,8 @@ async def send_laptops_notification():
         print("Error: Channel not found.")
         return
     for link in laptops_direct_links:
-        pass
-        #await asyncio.sleep(1)
-        #await asyncio.to_thread(get_laptops_update, link, False)
+        await asyncio.sleep(1)
+        await asyncio.to_thread(get_laptops_update, link, False)
     while not client.is_closed():
         print("laptops")
         try:
