@@ -23,6 +23,7 @@ intents.messages = True
 intents.guilds = True
 intents.members = True
 intents.message_content = True
+keepa_client = discord.Client(intents=discord.Intents.default())
 client = discord.Client(intents=intents)
 
 game_channel_id = 1209922009824239666
@@ -219,7 +220,7 @@ async def send_game_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(game_channel_id)
     unfiltered_channel = client.get_channel(game_unfiltered_id)
-    keepa_channel = client.get_channel(game_keepa_id)
+    keepa_channel =game_keepa_id
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -261,7 +262,7 @@ async def send_argos_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(argos_channel_id)
     unfiltered_channel = client.get_channel(argos_unfiltered_id)
-    keepa_channel = client.get_channel(argos_keepa_id)
+    keepa_channel =argos_keepa_id
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -305,14 +306,15 @@ async def send_laptops_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(laptops_direct_channel_id)
     unfiltered_channel = client.get_channel(laptops_direct_unfiltered_id)
-    keepa_channel = client.get_channel(laptopsdirect_keepa_id)
+    keepa_channel =laptopsdirect_keepa_id
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
         return
     for link in laptops_direct_links:
-        await asyncio.sleep(1)
-        await asyncio.to_thread(get_laptops_update, link, False)
+        pass
+        #await asyncio.sleep(1)
+        #await asyncio.to_thread(get_laptops_update, link, False)
     while not client.is_closed():
         print("laptops")
         try:
@@ -344,7 +346,7 @@ async def send_johnlewis_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(john_lewis_channel_id)
     unfiltered_channel = client.get_channel(john_lewis_unfiltered_id)
-    keepa_channel = client.get_channel(johnlewis_keepa_id)
+    keepa_channel =johnlewis_keepa_id
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -387,7 +389,7 @@ async def send_currys_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(currys_channel_id)
     unfiltered_channel = client.get_channel(currys_unfiltered_id)
-    keepa_channel = client.get_channel(currys_keepa_id)
+    keepa_channel =currys_keepa_id
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -427,7 +429,7 @@ async def send_houseoffraser_notification():
     print("started")
     selected_channel = client.get_channel(houseoffraser_channel_id)
     unfiltered_channel = client.get_channel(houseoffraser_unfiltered_id)
-    keepa_channel = client.get_channel(house_keepa_id)
+    keepa_channel =house_keepa_id
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -466,7 +468,7 @@ async def send_selfridges_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(selfridges_channel_id)
     unfiltered_channel = client.get_channel(selfridges_unfiltered_id)
-    keepa_channel = client.get_channel(selfridges_keepa_id)
+    keepa_channel =selfridges_keepa_id
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -505,7 +507,7 @@ async def send_dell_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(dell_channel_id)
     unfiltered_channel = client.get_channel(dell_unfiltered_id)
-    keepa_channel = client.get_channel(dell_keepa_id)
+    keepa_channel =dell_keepa_id
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -544,7 +546,7 @@ async def send_ryman_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(ryman_channel_id)
     unfiltered_channel = client.get_channel(ryman_unfiltered_id)
-    keepa_channel = client.get_channel(ryman_keepa_id)
+    keepa_channel =ryman_keepa_id
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -583,7 +585,7 @@ async def send_coolshop_notification():
     await client.wait_until_ready()
     selected_channel = client.get_channel(coolshop_channel_id)
     unfiltered_channel = client.get_channel(coolshop_unfiltered_id)
-    keepa_channel = client.get_channel(coolshop_keepa_id)
+    keepa_channel =coolshop_keepa_id
     curr_time = datetime.now()
     if selected_channel is None:
         print("Error: Channel not found.")
@@ -619,16 +621,14 @@ async def send_coolshop_notification():
             print("Major Coolshop Exception")
 
 
+
+@keepa_client.event
+async def on_ready():
+    print(f"keepa bot is ready {keepa_client.user}")
+
 async def send_message(channel, message):
-    keepa_client = discord.Client(intents=discord.Intents.default())
-
-    @client.event
-    async def on_ready():
-        if channel:
-            await channel.send(message)
-        await keepa_client.close()
-
-    await keepa_client.start(BOT_KEEPA)
+    channel = keepa_client.get_channel(channel)
+    await channel.send(embed=message)
 
 
 # Event: Bot is ready
@@ -723,6 +723,7 @@ async def main():
         run_bot()
     )
 
-
+loop.create_task(keepa_client.start(BOT_KEEPA))
 loop.run_until_complete(main())
+
 
