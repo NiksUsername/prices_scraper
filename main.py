@@ -158,17 +158,19 @@ def get_updates(prices, website):
         words_size = min(len(mobile_name), 5)
         mobile_name = "%20".join(mobile_name[0:words_size])
         embed = discord.Embed(
-            description=f"Price Drop - {change} \n\n"
-                        f"Product: [{price['name']}]({price['link']})"
-                        f"New Price - £{price['price']} \n" \
-                        f"Old Price - {old_price} \n" \
-                        f"\nLinks: \n"
-                        f"[Amazon](https://www.amazon.co.uk/s?k={link_name}) | "
-                        f"[Keepa](https://keepa.com/#!search/2-{link_name}) | "
-                        f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={link_name}) | "
-                        f"[SellerAmp(Mobile)](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={mobile_name})\n",
+            title=f"Price Drop - {change}",
+            description="",
             color=0x0000ff
         )
+        embed.add_field(name="Product:", value=f"[{price['name']}]({price['link']})")
+        embed.add_field(name="New Price:", value=f"£{price['price']}")
+        embed.add_field(name="Old Price:", value=f"{old_price}")
+        embed.add_field(name="Links:", value= f""
+                    f"[Amazon](https://www.amazon.co.uk/s?k={link_name}) | "
+                    f"[Keepa](https://keepa.com/#!search/2-{link_name}) | "
+                    f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={link_name}) | "
+                    f"[SellerAmp(Mobile)](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={mobile_name})\n",)
+
         embed.set_thumbnail(url=price["image"])
         if is_big_discount(price):
             messages.append(embed)

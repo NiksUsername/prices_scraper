@@ -80,20 +80,20 @@ def get_new_prices(url, page_number=1):
                     "image":image
                 }
 
-                if image in prices:
-                    item_data["old_price"] = prices[image]["old_price"]
-                    if prices[image]["old_price"] > price and price != prices[image]["price"] and image not in temporary_discounts:
-                        item_data["old_price"] = prices[image]["old_price"]
-                        item_data["previous_price"] = prices[image]["price"]
-                        prices[image]["price"] = price
+                if link in prices:
+                    item_data["old_price"] = prices[link]["old_price"]
+                    if prices[link]["old_price"] > price and price != prices[link]["price"] and prices[link][image] == image and link not in temporary_discounts:
+                        item_data["old_price"] = prices[link]["old_price"]
+                        item_data["previous_price"] = prices[link]["price"]
+                        prices[link]["price"] = price
                         discounts_list.append(item_data)
-                        temporary_discounts[image] = datetime.now()
-                    elif image not in temporary_discounts:
-                        if prices[image]["old_price"] < old_price:
-                            prices[image]["old_price"] = old_price
-                        prices[image]["price"] = price
+                        temporary_discounts[link] = datetime.now()
+                    elif link not in temporary_discounts:
+                        if prices[link]["old_price"] < old_price:
+                            prices[link]["old_price"] = old_price
+                        prices[link]["price"] = price
                 else:
-                    prices[image] = item_data.copy()
+                    prices[link] = item_data.copy()
                     item_data["old_price"] = 0
                     discounts_list.append(item_data)
             except:
