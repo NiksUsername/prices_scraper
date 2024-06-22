@@ -5,6 +5,7 @@ from curl_cffi import requests
 from bs4 import BeautifulSoup
 
 import keepa_manager
+import links
 from discount_properties import is_big_discount
 header = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 14_2_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.6099.234 Safari/537.36',
@@ -42,6 +43,7 @@ temporary_discounts = {}
 
 
 def get_new_prices(url, page_number=1):
+    return []
     link = f"{url}&page={page_number}&productsPerPage=400&sortOption=rank&selectedFilters=&isSearch=false&searchText=&columns=4&mobileColumns=2&clearFilters=false&pathName=/gaming/xbox&searchTermCategory=&selectedCurrency=GBP&portalSiteId=318&searchCategory="
     response = requests.get(link, headers=header, cookies=cookies, impersonate="chrome120")
     discounts_list = []
@@ -126,3 +128,5 @@ def get_keepa_results(price_drops):
                 }
                 keepa_drops.append(margin_ping)
     return keepa_drops
+
+print(f"{links.houseoffraser_links[0]}&page={1}&productsPerPage=400&sortOption=rank&selectedFilters=&isSearch=false&searchText=&columns=4&mobileColumns=2&clearFilters=false&pathName=/gaming/xbox&searchTermCategory=&selectedCurrency=GBP&portalSiteId=318&searchCategory=")
