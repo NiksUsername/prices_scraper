@@ -86,7 +86,7 @@ def find_best_match(title, keepa_objects):
             best_match = object
             best_match_percentage = percentage
 
-    if best_match_percentage >= 0.65:
+    if best_match_percentage >= 0.70:
         return best_match
     return False
 

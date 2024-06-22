@@ -4,6 +4,7 @@ from curl_cffi import requests
 from bs4 import BeautifulSoup
 
 import keepa_manager
+import links
 from discount_properties import is_big_discount
 
 url = "https://www.game.co.uk/en/playstation/games/?contentOnly=&inStockOnly=true&listerOnly=&pageSize=600"
@@ -62,7 +63,6 @@ first_run = True
 
 def get_new_prices(url, page=1):
     response = requests.get(url, headers=headers, cookies=cookies, impersonate="chrome120")
-
     soup = BeautifulSoup(response.content, "html.parser")
 
     game_items = soup.find_all("div", class_="productWrapper")
@@ -78,7 +78,8 @@ def get_new_prices(url, page=1):
             if item_data["price"] == 0: continue
             item_data["link"] = title["href"]
             item_data["old_price"] = item_data["price"]
-            item_data["image"] = item.find("img", class_="optimisedImg")["src"]
+            item_data["image"] = "https://" + item.find("img")["data-src"]
+
 
             if item_data["link"] in prices:
                 item_data["old_price"] = prices[item_data["link"]]["old_price"]

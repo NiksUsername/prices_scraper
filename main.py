@@ -154,6 +154,8 @@ def get_updates(prices, website):
             old_price = f"£{round(price['old_price'], 2)}"
             change = str(round((price["old_price"] - price["price"]) / price["old_price"] * 100)) + "%"
         print(price)
+        if "file" in price:
+            price["image"] = "attachment://thumbnail.jpg"
         link_name = price["name"].replace(" ", "%20").replace("\xa0", "%20")
         mobile_name = link_name.split("%20")
         words_size = min(len(mobile_name), 5)
@@ -173,10 +175,14 @@ def get_updates(prices, website):
                     f"[SellerAmp(Mobile)](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={mobile_name})\n",)
 
         embed.set_thumbnail(url=price["image"])
-        if is_big_discount(price):
-            messages.append(embed)
+        if "file" not in price:
+            return_message = embed
         else:
-            unfiltered.append(embed)
+            return_message = (embed, price["file"])
+        if is_big_discount(price):
+            messages.append(return_message)
+        else:
+            unfiltered.append(return_message)
     return messages, unfiltered
 
 
@@ -186,6 +192,8 @@ def get_keepa_difference(prices, website):
         keepa_price = round(price['keepa_price'], 2)
         margin = str(round(price["margin"] * 100)) + "%"
         print(price)
+        if "file" in price:
+            price["image"] = "attachment://thumbnail.jpg"
         link_name = price["name"].replace(" ", "%20").replace("\xa0", "%20")
         mobile_name = link_name.split("%20")
         words_size = min(len(mobile_name), 5)
@@ -212,7 +220,10 @@ def get_keepa_difference(prices, website):
                         f"[Keepa](https://keepa.com/#!product/2-{price['ASIN']}) | "
                         f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={price['ASIN']}&sas_cost_price={price['price']}&sas_sale_price={keepa_price})\n",
                         inline=False)
-        messages.append(embed)
+        if "file" not in price:
+            messages.append(embed)
+        else:
+            messages.append((embed, price["file"]))
     return messages
 
 
@@ -448,13 +459,13 @@ async def send_houseoffraser_notification():
                     continue
                 if return_value:
                     for i in return_value:
-                        await selected_channel.send(embed=i)
+                        await selected_channel.send(embed=i[0], file=i[1])
                 if unfiltered_value:
                     for i in unfiltered_value:
-                        await unfiltered_channel.send(embed=i)
+                        await unfiltered_channel.send(embed=i[0], file=i[1])
                 if keepa_value:
                     for i in keepa_value:
-                        await send_message(keepa_channel, i)
+                        await send_message(keepa_channel, i[0], file=i[1])
                 await asyncio.sleep(0.5)
             delta = datetime.now() - curr_time
             await asyncio.sleep(max(60 - delta.total_seconds(), 0))
@@ -625,9 +636,12 @@ async def send_coolshop_notification():
 async def on_ready():
     print(f"keepa bot is ready {keepa_client.user}")
 
-async def send_message(channel, message):
+async def send_message(channel, message, file=None):
     channel = keepa_client.get_channel(channel)
-    await channel.send(embed=message)
+    if not file:
+        await channel.send(embed=message)
+    else:
+        await channel.send(embed=message, file=file)
 
 
 # Event: Bot is ready
