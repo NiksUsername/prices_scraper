@@ -48,7 +48,6 @@ def get_new_prices(url, page_number=1, create_photos=True):
     link = f"{url}&page={page_number}&productsPerPage=400&sortOption=rank&selectedFilters=&isSearch=false&searchText=&columns=4&mobileColumns=2&clearFilters=false&pathName=/gaming/xbox&searchTermCategory=&selectedCurrency=GBP&portalSiteId=318&searchCategory="
     response = requests.get(link, headers=header, cookies=cookies, impersonate="chrome120")
     discounts_list = []
-    print("success1")
 
     if response.status_code == 200:
         items = response.json()
@@ -99,7 +98,7 @@ def get_new_prices(url, page_number=1, create_photos=True):
         item_count = int(items["numberOfProducts"])
         if 400 * page_number < item_count:
             time.sleep(0.5)
-            for discount in get_new_prices(url, page_number + 1):
+            for discount in get_new_prices(url, page_number + 1, create_photos):
                 discounts_list.append(discount)
 
         temp = temporary_discounts.items()
@@ -141,6 +140,5 @@ def get_keepa_results(price_drops):
 
 
 def get_image(image_url):
-    print("wtf")
     response = requests.get(url=image_url, cookies=cookies, headers=header, impersonate="chrome120")
     return io.BytesIO(response.content)
