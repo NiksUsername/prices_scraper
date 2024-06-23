@@ -448,7 +448,10 @@ async def send_houseoffraser_notification():
         return
     for link in houseoffraser_links:
         await asyncio.sleep(0.5)
-        await asyncio.to_thread(get_houseoffraser_update, link, False)
+        try:
+            await asyncio.to_thread(get_houseoffraser_update, link, False)
+        except Exception as e:
+            traceback.print_exc()
     while not client.is_closed():
         print("house")
         try:
