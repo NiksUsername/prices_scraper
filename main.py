@@ -104,7 +104,7 @@ def get_currys_update(url, check_keepa=True):
 
 
 def get_houseoffraser_update(url, check_keepa=True):
-    prices = houseoffraser_scraper.get_new_prices(url)
+    prices = houseoffraser_scraper.get_new_prices(url=url, create_photos=check_keepa)
     if check_keepa: keepa_updates = get_keepa_difference(houseoffraser_scraper.get_keepa_results(prices), "www.houseoffraser.co.uk")
     else: keepa_updates = []
     site_updates = get_updates(prices, "www.houseoffraser.co.uk")
@@ -456,8 +456,8 @@ async def send_houseoffraser_notification():
                 try:
                     return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_houseoffraser_update, link, True)
                 except Exception as e:
-                    traceback.print_exc()
                     print("house error")
+                    traceback.print_exc()
                     continue
                 if return_value:
                     for i in return_value:

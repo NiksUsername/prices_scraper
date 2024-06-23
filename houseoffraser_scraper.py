@@ -44,7 +44,7 @@ prices = {}
 temporary_discounts = {}
 
 
-def get_new_prices(url, page_number=1):
+def get_new_prices(url, page_number=1, create_photos=True):
     link = f"{url}&page={page_number}&productsPerPage=400&sortOption=rank&selectedFilters=&isSearch=false&searchText=&columns=4&mobileColumns=2&clearFilters=false&pathName=/gaming/xbox&searchTermCategory=&selectedCurrency=GBP&portalSiteId=318&searchCategory="
     response = requests.get(link, headers=header, cookies=cookies, impersonate="chrome120")
     discounts_list = []
@@ -78,8 +78,9 @@ def get_new_prices(url, page_number=1):
                     item_data["previous_price"] = prices[link]["price"]
                     prices[link]["price"] = price
 
-                    image_data = get_image(image)
-                    item_data["file"] = discord.File(image_data, filename='thumbnail.jpg')
+                    if create_photos:
+                        image_data = get_image(image)
+                        item_data["file"] = discord.File(image_data, filename='thumbnail.jpg')
                     discounts_list.append(item_data)
                     temporary_discounts[link] = datetime.now()
                 elif link not in temporary_discounts:
@@ -89,8 +90,9 @@ def get_new_prices(url, page_number=1):
             else:
                 prices[link] = item_data.copy()
                 item_data["old_price"] = 0
-                image_data = get_image(image)
-                item_data["file"] = discord.File(image_data, filename='thumbnail.jpg')
+                if create_photos:
+                    image_data = get_image(image)
+                    item_data["file"] = discord.File(image_data, filename='thumbnail.jpg')
                 discounts_list.append(item_data)
 
         item_count = int(items["numberOfProducts"])
