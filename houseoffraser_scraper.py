@@ -55,7 +55,6 @@ def get_new_prices(url, page_number=1, create_photos=True):
 
         discounts_list = []
         for item in items["products"]:
-            print("success2")
             name = f'{item["name"]} - {item["brand"]}'
             price = float(item["price"].replace("£", "").replace(",", ""))
             old_price = item["ticketPrice"]
@@ -142,5 +141,6 @@ def get_keepa_results(price_drops):
 
 
 def get_image(image_url):
+    print("wtf")
     response = requests.get(url=image_url, cookies=cookies, headers=header, impersonate="chrome120")
     return io.BytesIO(response.content)
