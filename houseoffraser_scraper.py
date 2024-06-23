@@ -47,6 +47,7 @@ temporary_discounts = {}
 def get_new_prices(url, page_number=1, create_photos=True):
     link = f"{url}&page={page_number}&productsPerPage=400&sortOption=rank&selectedFilters=&isSearch=false&searchText=&columns=4&mobileColumns=2&clearFilters=false&pathName=/gaming/xbox&searchTermCategory=&selectedCurrency=GBP&portalSiteId=318&searchCategory="
     response = requests.get(link, headers=header, cookies=cookies, impersonate="chrome120")
+    print(response.content)
     discounts_list = []
 
     if response.status_code == 200:

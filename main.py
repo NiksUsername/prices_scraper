@@ -105,6 +105,7 @@ def get_currys_update(url, check_keepa=True):
 
 def get_houseoffraser_update(url, check_keepa=True):
     prices = houseoffraser_scraper.get_new_prices(url=url, create_photos=check_keepa)
+    print("success")
     if check_keepa: keepa_updates = get_keepa_difference(houseoffraser_scraper.get_keepa_results(prices), "www.houseoffraser.co.uk")
     else: keepa_updates = []
     site_updates = get_updates(prices, "www.houseoffraser.co.uk")
