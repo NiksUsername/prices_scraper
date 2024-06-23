@@ -1,3 +1,4 @@
+import traceback
 from datetime import datetime, timedelta
 
 import argos_scraper
@@ -455,7 +456,8 @@ async def send_houseoffraser_notification():
                 try:
                     return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_houseoffraser_update, link, True)
                 except Exception as e:
-                    print(e.with_traceback)
+                    traceback.print_exc()
+                    print("house error")
                     continue
                 if return_value:
                     for i in return_value:
