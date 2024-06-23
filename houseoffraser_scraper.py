@@ -89,6 +89,8 @@ def get_new_prices(url, page_number=1):
             else:
                 prices[link] = item_data.copy()
                 item_data["old_price"] = 0
+                image_data = get_image(image)
+                item_data["file"] = discord.File(image_data, filename='thumbnail.jpg')
                 discounts_list.append(item_data)
 
         item_count = int(items["numberOfProducts"])
