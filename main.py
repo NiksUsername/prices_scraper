@@ -290,7 +290,7 @@ async def send_argos_notification():
                 try:
                     return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_argos_update, link, True)
                 except Exception as e:
-                    print(e.with_traceback)
+                    print(traceback.print_exc())
                     print("argos")
                     continue
                 if return_value:
