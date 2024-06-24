@@ -173,7 +173,6 @@ def get_keepa_results(price_drops):
 
 def get_bar_code(link):
     response = requests.get(link, headers=header, cookies=cookies, impersonate="chrome120")
-    print(response.content)
     soup = BeautifulSoup(response.content, 'html.parser')
     description = soup.find("div", class_="product-description-content-text")
     lines = description.find_all("li")
