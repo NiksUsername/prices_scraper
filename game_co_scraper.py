@@ -78,7 +78,7 @@ def get_new_prices(url, page=1):
             if item_data["price"] == 0: continue
             item_data["link"] = title["href"]
             item_data["old_price"] = item_data["price"]
-            item_data["image"] = "https://" + item.find("img")["data-src"]
+            item_data["image"] = "https:" + item.find("img")["data-src"]
 
 
             if item_data["link"] in prices:

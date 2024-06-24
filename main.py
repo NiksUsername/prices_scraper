@@ -87,9 +87,9 @@ def get_argos_update(url, check_keepa=True):
     return site_updates + (keepa_updates,)
 
 
-def get_games_update(url, check_keepa=True):
+def get_games_update(url):
     prices = game_co_scraper.get_new_prices(url+"?contentOnly=&inStockOnly=true&listerOnly=&pageSize=600&sortBy=MOST_POPULAR_DESC&pageNumber=1")
-    if check_keepa: keepa_updates = get_keepa_difference(game_co_scraper.get_keepa_results(prices), "www.game.co.uk")
+    if not game_co_scraper.first_run: keepa_updates = get_keepa_difference(game_co_scraper.get_keepa_results(prices), "www.game.co.uk")
     else: keepa_updates = []
     site_updates = get_updates(prices, "www.game.co.uk")
     return site_updates + (keepa_updates,)
@@ -243,9 +243,9 @@ async def send_game_notification():
             selected_channel = client.get_channel(game_channel_id)
             for link in game_links:
                 try:
-                    return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_games_update, link, True)
+                    return_value, unfiltered_value, keepa_value = await asyncio.to_thread(get_games_update, link)
                 except Exception as e:
-                    print(e.with_traceback)
+                    print(traceback.print_exc())
                     print("game")
                     continue
                 if return_value:
