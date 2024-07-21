@@ -59,6 +59,7 @@ def get_new_prices(url, page_number=1, chunk=1):
                 "old_price": old_price,
                 "image": image
             }
+            print(item_data)
             if link in prices:
                 item_data["old_price"] = prices[link]["old_price"]
                 if prices[link]["old_price"] > price and price != prices[link]["price"] and link not in temporary_discounts:
@@ -101,7 +102,7 @@ def get_keepa_results(price_drops):
     for price_drop in price_drops:
         if price_drop["old_price"] == 0 or price_drop["price"]/price_drop["previous_price"] <= 0.85:
 
-            compare_price, fee, fee_percentage, asin, avg90 = keepa_manager.get_from_title(price_drop["name"])
+            compare_price, fee, fee_percentage, asin, avg90, graph, sales_rank_drop_30, monthly_sold, percentage = keepa_manager.get_from_title(price_drop["name"])
             if not compare_price:
                 continue
             profit = compare_price - price_drop["price"] - 0.5 - (compare_price / 6 - price_drop["price"] / 6) - fee - (
@@ -116,7 +117,11 @@ def get_keepa_results(price_drops):
                     "margin": profit_margin,
                     "ASIN": asin,
                     "avg": avg90,
-                    "image": price_drop["image"]
+                    "image": price_drop["image"],
+                    "graph": graph,
+                    "rank_drop": sales_rank_drop_30,
+                    "monthly_sold": monthly_sold,
+                    "match_percentage": percentage
                 }
                 keepa_drops.append(margin_ping)
     return keepa_drops

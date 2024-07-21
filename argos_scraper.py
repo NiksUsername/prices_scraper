@@ -148,9 +148,9 @@ def get_keepa_results(price_drops):
         if price_drop["old_price"] == 0 or price_drop["price"]/price_drop["previous_price"] <= 0.85:
             bar_code = get_bar_code(price_drop["link"])
             if not bar_code:
-                compare_price, fee, fee_percentage, asin, avg90 = keepa_manager.get_from_title(price_drop["name"])
+                compare_price, fee, fee_percentage, asin, avg90, graph, sales_rank_drop_30, monthly_sold, percentage = keepa_manager.get_from_title(price_drop["name"])
             else:
-                compare_price, fee, fee_percentage,asin,avg90 = keepa_manager.get_from_bar_code(bar_code)
+                compare_price, fee, fee_percentage, asin, avg90, graph, sales_rank_drop_30, monthly_sold, percentage = keepa_manager.get_from_bar_code(bar_code)
 
             if not compare_price:
                 continue
@@ -165,7 +165,11 @@ def get_keepa_results(price_drops):
                     "margin": profit_margin,
                     "ASIN":asin,
                     "avg": avg90,
-                    "image": price_drop["image"]
+                    "image": price_drop["image"],
+                    "graph": graph,
+                    "rank_drop": sales_rank_drop_30,
+                    "monthly_sold": monthly_sold,
+                    "match_percentage": percentage
                 }
                 keepa_drops.append(margin_ping)
     return keepa_drops
@@ -179,3 +183,4 @@ def get_bar_code(link):
     if len(lines) > 0 and "EAN:" in lines[len(lines)-1].text:
         return lines[len(lines)-1].text.replace("EAN:", "").replace(".", "").strip()
     return None
+

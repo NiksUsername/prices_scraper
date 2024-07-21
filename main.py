@@ -199,32 +199,40 @@ def get_keepa_difference(prices, website):
         mobile_name = link_name.split("%20")
         words_size = min(len(mobile_name), 5)
         mobile_name = "%20".join(mobile_name[0:words_size])
+        graph = None
+        if price.get("graph"):
+            graph = discord.File(price.get("graph"), filename='graph.jpg')
         embed = discord.Embed(
             title="",
             description="",
             color=0x0000ff
         )
         embed.set_thumbnail(url=price["image"])
-        embed.add_field(name="Margin", value=f"{margin}", inline=True)
-        embed.add_field(name="Expected Profit", value=f"£{round(price['margin'] * price['keepa_price'], 2)}", inline=True)
-        embed.add_field(name="\t", value="\t", inline=False)
-        embed.add_field(name="Product", value=f"[{price['name']}]({price['link']})",inline=False)
+        if price['match_percentage']:
+            embed.add_field(name="Match", value=f"{round(price['match_percentage']*100, 2)}%", inline=True)
+        embed.add_field(name="Product", value=f"[{price['name']}]({price['link']})", inline=False)
         embed.add_field(name="ASIN", value=f"{price['ASIN']}", inline=False)
-        embed.add_field(name="\t", value="\t", inline=False)
         embed.add_field(name="Price", value=f"£{price['price']}", inline=True)
-        embed.add_field(name="Amazon Price", value=f"£{keepa_price}", inline=True)
-        embed.add_field(name="\t", value="\t", inline=False)
         embed.add_field(name="Average 90 Day Price", value=f"{price['avg']}", inline=False)
-        embed.add_field(name="\t", value="\t", inline=False)
+        if price.get("monthly_sold"):
+            embed.add_field(name="Monthly Sold", value=f"{price['monthly_sold']}",
+                            inline=True)
+        if price.get("rank_drop"):
+            embed.add_field(name="Sales rank drops 30 day", value=f"{price['rank_drop']}",
+                            inline=True)
+        embed.add_field(name="Expected Profit", value=f"£{round(price['margin'] * price['keepa_price'], 2)}", inline=True)
+        embed.add_field(name="Margin", value=f"{round(price['margin']*100, 2)}%", inline=True)
         embed.add_field(name="\nLinks: \n", value=f""
                         f"[Amazon](https://www.amazon.co.uk/dp/{price['ASIN']}) | "
                         f"[Keepa](https://keepa.com/#!product/2-{price['ASIN']}) | "
                         f"[SellerAmp](https://sas.selleramp.com/sas/lookup?SasLookup&search_term={price['ASIN']}&sas_cost_price={price['price']}&sas_sale_price={keepa_price})\n",
                         inline=False)
+        if graph:
+            embed.set_image(url="attachment://graph.jpg")
         if "file" not in price:
-            messages.append(embed)
+            messages.append((embed, [graph]))
         else:
-            messages.append((embed, price["file"]))
+            messages.append((embed, [price["file"], graph]))
     return messages
 
 
@@ -647,7 +655,7 @@ async def send_message(channel, message, file=None):
     if not file:
         await channel.send(embed=message)
     else:
-        await channel.send(embed=message, file=file)
+        await channel.send(embed=message, files=file)
 
 
 # Event: Bot is ready
