@@ -59,7 +59,6 @@ def get_new_prices(url, page_number=1, chunk=1):
                 "old_price": old_price,
                 "image": image
             }
-            print(item_data)
             if link in prices:
                 item_data["old_price"] = prices[link]["old_price"]
                 if prices[link]["old_price"] > price and price != prices[link]["price"] and link not in temporary_discounts:
